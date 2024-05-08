@@ -1,4 +1,8 @@
+import EntryExitHome from "@/modules/entry-exit/EntryExitHome";
+import VehicleEntryPage from "@/modules/entry-exit/VehicleEntryPage";
+import VehicleExitPage from "@/modules/entry-exit/VehicleExitPage";
 import LoginPage from "@/modules/login/LoginPage";
+import WaitingVehiclesPage from "@/modules/waiting-vehicles/WaitingVehiclesPage";
 import Head from "next/head";
 
 export default function Home() {
@@ -10,7 +14,11 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-<LoginPage/>
+      {/* <LoginPage/> */}
+      {/* <VehicleEntryPage /> */}
+      <EntryExitHome/>
+      {/* <VehicleExitPage/> */}
+      {/* <WaitingVehiclesPage /> */}
     </>
   );
 }
