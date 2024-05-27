@@ -89,12 +89,14 @@ export default function WaitingVehiclesPage() {
             value={searchValue}
             onChange={handleSearchChange}
           />
-          {/* <button onClick={handleSearch}>Search</button> */}
-          <Box width={"5rem"}>
-            <Button variant="contained" fullWidth onClick={handleSearch}>
-              Search
-            </Button>
-          </Box>
+
+          <Button
+            variant="contained"
+            sx={{ marginLeft: "1rem", mt: 9 }}
+            onClick={handleSearch}
+          >
+            Search
+          </Button>
         </Box>
 
         {waitingVehicles.map((vehicle, index) => (

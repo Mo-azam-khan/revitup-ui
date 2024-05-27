@@ -1,3 +1,4 @@
+import DashboardPage from "@/modules/dashboard/Dashboard";
 import EntryExitHome from "@/modules/entry-exit/EntryExitHome";
 import VehicleEntryPage from "@/modules/entry-exit/VehicleEntryPage";
 import VehicleExitPage from "@/modules/entry-exit/VehicleExitPage";
@@ -16,9 +17,10 @@ export default function Home() {
       </Head>
       {/* <LoginPage/> */}
       {/* <VehicleEntryPage /> */}
-      <EntryExitHome/>
+      {/* <EntryExitHome/> */}
       {/* <VehicleExitPage/> */}
       {/* <WaitingVehiclesPage /> */}
+      <DashboardPage/>
     </>
   );
 }
