@@ -10,13 +10,22 @@ import {
   Grid,
   Card,
   CardContent,
+  ListItemIcon,
+  ListItemButton,
 } from "@mui/material";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import LocalParkingIcon from "@mui/icons-material/LocalParking";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
+import PeopleIcon from "@mui/icons-material/People";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 // line chart
 const linechart = {
   chart: {
+    height: "300px",
     type: "line",
   },
   title: {
@@ -46,6 +55,7 @@ const linechart = {
 // column chart
 const columnchart = {
   chart: {
+    height: "300px",
     type: "column",
   },
   title: {
@@ -87,6 +97,7 @@ const columnchart = {
 // pie chart
 const piechart = {
   chart: {
+    height: "300px",
     type: "pie",
   },
   title: {
@@ -151,7 +162,7 @@ const DashboardPage = () => {
   return (
     <>
       {/* Navbar */}
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6">Dashboard</Typography>
         </Toolbar>
@@ -161,23 +172,95 @@ const DashboardPage = () => {
 
       <Drawer variant="permanent" anchor="left">
         <List>
-          <ListItem>
-            <ListItemText primary="Dashboard" />
+          <ListItem disablePadding>
+            <ListItemButton
+              sx={{
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                py: 2,
+              }}
+            >
+              <ListItemIcon sx={{ justifyContent: "center", minWidth: "auto" }}>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItemButton>
           </ListItem>
-          <ListItem>
-            <ListItemText primary="Parked" />
+          <ListItem disablePadding>
+            <ListItemButton
+              sx={{
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                py: 2,
+              }}
+            >
+              <ListItemIcon sx={{ justifyContent: "center", minWidth: "auto" }}>
+                <LocalParkingIcon />
+              </ListItemIcon>
+              <ListItemText primary="Parked" />
+            </ListItemButton>
           </ListItem>
-          <ListItem>
-            <ListItemText primary="Completed Vehicles" />
+          <ListItem disablePadding>
+            <ListItemButton
+              sx={{
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                py: 2,
+              }}
+            >
+              <ListItemIcon sx={{ justifyContent: "center", minWidth: "auto" }}>
+                <DirectionsCarIcon />
+              </ListItemIcon>
+              <ListItemText primary="Completed Vehicles" />
+            </ListItemButton>
           </ListItem>
-          <ListItem>
-            <ListItemText primary="Waiting Vehicles" />
+          <ListItem disablePadding>
+            <ListItemButton
+              sx={{
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                py: 2,
+              }}
+            >
+              <ListItemIcon sx={{ justifyContent: "center", minWidth: "auto" }}>
+                <HourglassEmptyIcon />
+              </ListItemIcon>
+              <ListItemText primary="Waiting Vehicles" />
+            </ListItemButton>
           </ListItem>
-          <ListItem>
-            <ListItemText primary="Workforce" />
+          <ListItem disablePadding>
+            <ListItemButton
+              sx={{
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                py: 2,
+              }}
+            >
+              <ListItemIcon sx={{ justifyContent: "center", minWidth: "auto" }}>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Workforce" />
+            </ListItemButton>
           </ListItem>
-          <ListItem>
-            <ListItemText primary="Profile" />
+          <ListItem disablePadding>
+            <ListItemButton
+              sx={{
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+                py: 2,
+              }}
+            >
+              <ListItemIcon sx={{ justifyContent: "center", minWidth: "auto" }}>
+                <AccountCircleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Profile" />
+            </ListItemButton>
           </ListItem>
         </List>
       </Drawer>
@@ -188,6 +271,7 @@ const DashboardPage = () => {
         spacing={3}
         style={{ padding: "20px" }}
         marginLeft={"150px"}
+        marginTop={"30px"}
       >
         {" "}
         <Grid item xs={12} sm={6} md={3.5}>
