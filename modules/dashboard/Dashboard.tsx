@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -21,6 +21,8 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import PeopleIcon from "@mui/icons-material/People";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import DefineCustomer from "../waiting-vehicles/DefineCustomer";
+import VehicleInfo from "../waiting-vehicles/VehicleInfo";
 
 // line chart
 const linechart = {
@@ -159,6 +161,18 @@ const piechart = {
 };
 
 const DashboardPage = () => {
+  const [openDefineCustomerModal, setOpenDefineCustomerModal] = useState(false);
+  const [openVehicleInfoModal, setOpenVehicleInfoModal] = useState(false);
+
+  const handleCloseDefineCustomerModal = () =>
+    setOpenDefineCustomerModal(false);
+  const handleOpenDefineCustomerModal = () => setOpenDefineCustomerModal(true);
+
+  const handleCloseVehicleInfoModal = () => setOpenVehicleInfoModal(false);
+  const handleOpenVehicleInfoModal = () => {
+    setOpenDefineCustomerModal(false);
+    setOpenVehicleInfoModal(true);
+  };
   return (
     <>
       {/* Navbar */}
@@ -225,6 +239,8 @@ const DashboardPage = () => {
                 textAlign: "center",
                 py: 2,
               }}
+              // onClick={handleOpen}
+              onClick={handleOpenDefineCustomerModal}
             >
               <ListItemIcon sx={{ justifyContent: "center", minWidth: "auto" }}>
                 <HourglassEmptyIcon />
@@ -326,6 +342,16 @@ const DashboardPage = () => {
           </Card>
         </Grid>
       </Grid>
+
+      <DefineCustomer
+        open={openDefineCustomerModal}
+        handleClose={handleCloseDefineCustomerModal}
+        handleOpenVehicleInfo={handleOpenVehicleInfoModal}
+      />
+      <VehicleInfo
+        open={openVehicleInfoModal}
+        handleClose={handleCloseVehicleInfoModal}
+      />
     </>
   );
 };
