@@ -15,11 +15,14 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 500,
+  width: "100%",
+  maxWidth: 600,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  maxHeight: "100vh",
+  overflowY: "auto",
 };
 
 const VehicleInfo = ({ open, handleClose }) => {
@@ -104,7 +107,7 @@ const VehicleInfo = ({ open, handleClose }) => {
           <Button variant="outlined" onClick={handleClose}>
             Back
           </Button>
-          <Button variant="contained" onClick={handleClose}>
+          <Button variant="contained" color="success" onClick={handleClose}>
             Proceed
           </Button>
           <Button variant="outlined" onClick={handleClose}>
