@@ -25,7 +25,7 @@ const style = {
   overflowY: "auto",
 };
 
-const VehicleInfo = ({ open, handleClose }) => {
+const VehicleInfo = ({ open, handleClose, onProceed }) => {
   return (
     <Modal
       open={open}
@@ -107,7 +107,7 @@ const VehicleInfo = ({ open, handleClose }) => {
           <Button variant="outlined" onClick={handleClose}>
             Back
           </Button>
-          <Button variant="contained" color="success" onClick={handleClose}>
+          <Button variant="contained" color="success" onClick={onProceed}>
             Proceed
           </Button>
           <Button variant="outlined" onClick={handleClose}>

@@ -23,6 +23,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DefineCustomer from "../waiting-vehicles/DefineCustomer";
 import VehicleInfo from "../waiting-vehicles/VehicleInfo";
+import UploadPhotoInterior from "../waiting-vehicles/UploadPhotoInterior";
 
 // line chart
 const linechart = {
@@ -173,6 +174,19 @@ const DashboardPage = () => {
     setOpenDefineCustomerModal(false);
     setOpenVehicleInfoModal(true);
   };
+
+  const [isVehicleInfoOpen, setIsVehicleInfoOpen] = useState(false);
+  const [isUploadPhotographsOpen, setIsUploadPhotographsOpen] = useState(false);
+
+  const handleVehicleInfoOpen = () => setIsVehicleInfoOpen(true);
+  const handleVehicleInfoClose = () => setIsVehicleInfoOpen(false);
+
+  const handleUploadPhotographsOpen = () => {
+    setIsVehicleInfoOpen(false);
+    setIsUploadPhotographsOpen(true);
+  };
+  const handleUploadPhotographsClose = () => setIsUploadPhotographsOpen(false);
+
   return (
     <>
       {/* Navbar */}
@@ -348,9 +362,18 @@ const DashboardPage = () => {
         handleClose={handleCloseDefineCustomerModal}
         handleOpenVehicleInfo={handleOpenVehicleInfoModal}
       />
+      {/* <VehicleInfo
+        open={openVehicleInfoModal}
+        handleClose={handleCloseVehicleInfoModal}
+      /> */}
       <VehicleInfo
         open={openVehicleInfoModal}
         handleClose={handleCloseVehicleInfoModal}
+        onProceed={handleUploadPhotographsOpen}
+      />
+      <UploadPhotoInterior
+        open={isUploadPhotographsOpen}
+        handleClose={handleUploadPhotographsClose}
       />
     </>
   );
