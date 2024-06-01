@@ -24,13 +24,13 @@ const style = {
   overflowY: "auto",
 };
 
-const UploadPhotoInterior = ({ open, handleClose, onProceed }) => {
+const UploadPhotoExterior = ({ open, handleClose }) => {
   return (
     <Modal
       open={open}
       onClose={handleClose}
-      aria-labelledby="upload-vehicle-photographs-title"
-      aria-describedby="upload-vehicle-photographs-description"
+      aria-labelledby="upload-vehicle-exterior-photographs-title"
+      aria-describedby="upload-vehicle-exterior-photographs-description"
     >
       <Box sx={style}>
         <Box
@@ -42,7 +42,7 @@ const UploadPhotoInterior = ({ open, handleClose, onProceed }) => {
           }}
         >
           <Typography
-            id="upload-vehicle-photographs-title"
+            id="upload-vehicle-exterior-photographs-title"
             variant="h6"
             component="h2"
           >
@@ -53,15 +53,14 @@ const UploadPhotoInterior = ({ open, handleClose, onProceed }) => {
           </IconButton>
         </Box>
         <Typography variant="body1" component="p" sx={{ mb: 2 }}>
-          Please upload vehicle photographs from every angle possible of the
-          interior of the vehicle.
+          Please upload vehicle photographs from every angle possible focusing on the damaged areas.
         </Typography>
         <Grid container spacing={2} sx={{ mb: 2 }}>
           {[
-            "Seats",
-            "Dashboard",
-            "Dashboard",
-            "Odometer",
+            "Front",
+            "Rear",
+            "Right",
+            "Left",
             "Focus Area 1",
             "Focus Area 2",
           ].map((item, index) => (
@@ -89,7 +88,7 @@ const UploadPhotoInterior = ({ open, handleClose, onProceed }) => {
           ))}
         </Grid>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Button variant="contained" onClick={onProceed}>
+          <Button variant="contained" onClick={handleClose}>
             Proceed with test drive
           </Button>
         </Box>
@@ -98,4 +97,4 @@ const UploadPhotoInterior = ({ open, handleClose, onProceed }) => {
   );
 };
 
-export default UploadPhotoInterior;
+export default UploadPhotoExterior;

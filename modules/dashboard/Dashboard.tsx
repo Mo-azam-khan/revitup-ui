@@ -24,6 +24,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DefineCustomer from "../waiting-vehicles/DefineCustomer";
 import VehicleInfo from "../waiting-vehicles/VehicleInfo";
 import UploadPhotoInterior from "../waiting-vehicles/UploadPhotoInterior";
+import UploadPhotoExterior from "../waiting-vehicles/UploadPhotoExterior";
 
 // line chart
 const linechart = {
@@ -186,6 +187,25 @@ const DashboardPage = () => {
     setIsUploadPhotographsOpen(true);
   };
   const handleUploadPhotographsClose = () => setIsUploadPhotographsOpen(false);
+
+  const [openInteriorUpload, setOpenInteriorUpload] = useState(false);
+  const [openExteriorUpload, setOpenExteriorUpload] = useState(false);
+
+  const handleOpenInteriorUpload = () => {
+    setOpenInteriorUpload(true);
+  };
+
+  const handleCloseInteriorUpload = () => {
+    setOpenInteriorUpload(false);
+  };
+
+  const handleOpenExteriorUpload = () => {
+    setOpenExteriorUpload(true);
+  };
+
+  const handleCloseExteriorUpload = () => {
+    setOpenExteriorUpload(false);
+  };
 
   return (
     <>
@@ -371,9 +391,21 @@ const DashboardPage = () => {
         handleClose={handleCloseVehicleInfoModal}
         onProceed={handleUploadPhotographsOpen}
       />
+      {/* <UploadPhotoInterior
+        open={isUploadPhotographsOpen}
+        handleClose={handleUploadPhotographsClose}
+      /> */}
       <UploadPhotoInterior
         open={isUploadPhotographsOpen}
         handleClose={handleUploadPhotographsClose}
+        onProceed={() => {
+          handleCloseInteriorUpload();
+          handleOpenExteriorUpload();
+        }}
+      />
+      <UploadPhotoExterior
+        open={openExteriorUpload}
+        handleClose={handleCloseExteriorUpload}
       />
     </>
   );
