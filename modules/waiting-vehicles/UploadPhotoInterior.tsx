@@ -24,7 +24,7 @@ const style = {
   overflowY: "auto",
 };
 
-const UploadPhotoInterior = ({ open, handleClose, onProceed }) => {
+const UploadPhotoInterior = ({ open, handleClose, onProceed } :any) => {
   return (
     <Modal
       open={open}

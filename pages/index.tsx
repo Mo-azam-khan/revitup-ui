@@ -1,12 +1,18 @@
+import Appbar from "@/modules/common/Appbar";
+import Layout from "@/modules/common/Layout";
+import Navigation from "@/modules/common/Sidebar";
 import DashboardPage from "@/modules/dashboard/Dashboard";
 import EntryExitHome from "@/modules/entry-exit/EntryExitHome";
 import VehicleEntryPage from "@/modules/entry-exit/VehicleEntryPage";
 import VehicleExitPage from "@/modules/entry-exit/VehicleExitPage";
 import LoginPage from "@/modules/login/LoginPage";
+import Profile from "@/modules/profile.js/Profile";
 import WaitingVehiclesPage from "@/modules/waiting-vehicles/WaitingVehiclesPage";
 import Head from "next/head";
+import React from "react";
 
 export default function Home() {
+  const [drawerOpen, setDrawerOpen] = React.useState<Boolean>(false);
   return (
     <>
       <Head>
@@ -15,12 +21,34 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <LoginPage/> */}
+      {/* Comment  the Layout.Root to see other pages  */}
+     
+      <Layout.Root
+          sx={{
+            ...(drawerOpen && {
+              height: '100vh',
+              overflow: 'hidden',
+            }),
+          }}
+        >
+          <Layout.Header>
+            <Appbar />
+          </Layout.Header>
+          <Layout.SideNav>
+            <Navigation />
+          </Layout.SideNav>
+          <Layout.Main>
+             <Profile /> 
+          </Layout.Main>
+        </Layout.Root>
+           {/* Comment  the Layout.Root to see other pages  */}
+         {/* <LoginPage/>  */}
       {/* <VehicleEntryPage /> */}
       {/* <EntryExitHome/> */}
       {/* <VehicleExitPage/> */}
       {/* <WaitingVehiclesPage /> */}
-      <DashboardPage/>
+      {/* <DashboardPage/> */}
+   
     </>
   );
 }
