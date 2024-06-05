@@ -24,7 +24,7 @@ const style = {
   overflowY: "auto",
 };
 
-const UploadPhotoExterior = ({ open, handleClose }) => {
+const UploadPhotoExterior = ({ open, handleClose } : any) => {
   return (
     <Modal
       open={open}
