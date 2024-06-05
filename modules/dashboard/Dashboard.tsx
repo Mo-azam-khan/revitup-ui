@@ -28,6 +28,9 @@ import UploadPhotoExterior from "../waiting-vehicles/UploadPhotoExterior";
 
 // line chart
 const linechart = {
+  credits: {
+    enabled: false,
+  },
   chart: {
     height: "300px",
     type: "line",
@@ -58,6 +61,9 @@ const linechart = {
 
 // column chart
 const columnchart = {
+  credits: {
+    enabled: false,
+  },
   chart: {
     height: "300px",
     type: "column",
@@ -100,6 +106,9 @@ const columnchart = {
 
 // pie chart
 const piechart = {
+  credits: {
+    enabled: false,
+  },
   chart: {
     height: "300px",
     type: "pie",
@@ -211,13 +220,12 @@ const DashboardPage = () => {
     <>
       {/* Navbar */}
       <AppBar position="fixed">
-        <Toolbar>
+        <Toolbar style={{display:"flex", justifyContent:"flex-end"}}>
           <Typography variant="h6">Dashboard</Typography>
         </Toolbar>
       </AppBar>
 
       {/* Sidebar */}
-
       <Drawer variant="permanent" anchor="left">
         <List>
           <ListItem disablePadding>
@@ -227,6 +235,8 @@ const DashboardPage = () => {
                 alignItems: "center",
                 textAlign: "center",
                 py: 2,
+                paddingLeft: "8px",
+                paddingRight: "8px",
               }}
             >
               <ListItemIcon sx={{ justifyContent: "center", minWidth: "auto" }}>
@@ -242,6 +252,8 @@ const DashboardPage = () => {
                 alignItems: "center",
                 textAlign: "center",
                 py: 2,
+                paddingLeft: "8px",
+                paddingRight: "8px",
               }}
             >
               <ListItemIcon sx={{ justifyContent: "center", minWidth: "auto" }}>
@@ -257,6 +269,8 @@ const DashboardPage = () => {
                 alignItems: "center",
                 textAlign: "center",
                 py: 2,
+                paddingLeft: "8px",
+                paddingRight: "8px",
               }}
             >
               <ListItemIcon sx={{ justifyContent: "center", minWidth: "auto" }}>
@@ -272,6 +286,8 @@ const DashboardPage = () => {
                 alignItems: "center",
                 textAlign: "center",
                 py: 2,
+                paddingLeft: "8px",
+                paddingRight: "8px",
               }}
               // onClick={handleOpen}
               onClick={handleOpenDefineCustomerModal}
@@ -289,6 +305,8 @@ const DashboardPage = () => {
                 alignItems: "center",
                 textAlign: "center",
                 py: 2,
+                paddingLeft: "8px",
+                paddingRight: "8px",
               }}
             >
               <ListItemIcon sx={{ justifyContent: "center", minWidth: "auto" }}>
@@ -304,6 +322,8 @@ const DashboardPage = () => {
                 alignItems: "center",
                 textAlign: "center",
                 py: 2,
+                paddingLeft: "8px",
+                paddingRight: "8px",
               }}
             >
               <ListItemIcon sx={{ justifyContent: "center", minWidth: "auto" }}>
@@ -320,7 +340,7 @@ const DashboardPage = () => {
         container
         spacing={3}
         style={{ padding: "20px" }}
-        marginLeft={"150px"}
+        marginLeft={"135px"}
         marginTop={"30px"}
       >
         {" "}

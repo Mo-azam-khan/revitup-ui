@@ -75,12 +75,7 @@ const UploadPhotoInterior = ({ open, handleClose, onProceed }) => {
                 }}
               >
                 <Typography variant="body1">{item}</Typography>
-                <Button
-                  variant="contained"
-                  fullWidth
-                  component="label"
-                  sx={{ mt: 1 }}
-                >
+                <Button variant="contained" component="label" sx={{ mt: 1 }}>
                   Upload Photograph
                   <input type="file" hidden />
                 </Button>

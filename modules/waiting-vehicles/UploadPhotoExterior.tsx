@@ -53,7 +53,8 @@ const UploadPhotoExterior = ({ open, handleClose }) => {
           </IconButton>
         </Box>
         <Typography variant="body1" component="p" sx={{ mb: 2 }}>
-          Please upload vehicle photographs from every angle possible focusing on the damaged areas.
+          Please upload vehicle photographs from every angle possible focusing
+          on the damaged areas.
         </Typography>
         <Grid container spacing={2} sx={{ mb: 2 }}>
           {[
@@ -74,12 +75,7 @@ const UploadPhotoExterior = ({ open, handleClose }) => {
                 }}
               >
                 <Typography variant="body1">{item}</Typography>
-                <Button
-                  variant="contained"
-                  fullWidth
-                  component="label"
-                  sx={{ mt: 1 }}
-                >
+                <Button variant="contained" component="label" sx={{ mt: 1 }}>
                   Upload Photograph
                   <input type="file" hidden />
                 </Button>
