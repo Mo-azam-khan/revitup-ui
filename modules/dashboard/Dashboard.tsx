@@ -220,7 +220,7 @@ const DashboardPage = () => {
     <>
       {/* Navbar */}
       <AppBar position="fixed">
-        <Toolbar style={{display:"flex", justifyContent:"flex-end"}}>
+        <Toolbar style={{ display: "flex", justifyContent: "flex-end" }}>
           <Typography variant="h6">Dashboard</Typography>
         </Toolbar>
       </AppBar>
@@ -402,19 +402,13 @@ const DashboardPage = () => {
         handleClose={handleCloseDefineCustomerModal}
         handleOpenVehicleInfo={handleOpenVehicleInfoModal}
       />
-      {/* <VehicleInfo
-        open={openVehicleInfoModal}
-        handleClose={handleCloseVehicleInfoModal}
-      /> */}
+
       <VehicleInfo
         open={openVehicleInfoModal}
         handleClose={handleCloseVehicleInfoModal}
         onProceed={handleUploadPhotographsOpen}
       />
-      {/* <UploadPhotoInterior
-        open={isUploadPhotographsOpen}
-        handleClose={handleUploadPhotographsClose}
-      /> */}
+
       <UploadPhotoInterior
         open={isUploadPhotographsOpen}
         handleClose={handleUploadPhotographsClose}
