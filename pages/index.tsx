@@ -11,6 +11,8 @@ import Quotation from "@/modules/quotation/quotation";
 import WaitingVehiclesPage from "@/modules/waiting-vehicles/WaitingVehiclesPage";
 import Head from "next/head";
 import React from "react";
+import DashboardSidebar from "@/modules/dashboard/DashboardSidebar";
+import DashboardMain from "@/modules/dashboard/DashboardMain";
 
 export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState<Boolean>(false);
