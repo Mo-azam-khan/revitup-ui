@@ -10,6 +10,8 @@ import Profile from "@/modules/profile.js/Profile";
 import WaitingVehiclesPage from "@/modules/waiting-vehicles/WaitingVehiclesPage";
 import Head from "next/head";
 import React from "react";
+import DashboardSidebar from "@/modules/dashboard/DashboardSidebar";
+import DashboardMain from "@/modules/dashboard/DashboardMain";
 
 export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState<Boolean>(false);
@@ -22,33 +24,53 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* Comment  the Layout.Root to see other pages  */}
-     
-      <Layout.Root
-          sx={{
-            ...(drawerOpen && {
-              height: '100vh',
-              overflow: 'hidden',
-            }),
-          }}
-        >
-          <Layout.Header>
-            <Appbar />
-          </Layout.Header>
-          <Layout.SideNav>
-            <Navigation />
-          </Layout.SideNav>
-          <Layout.Main>
-             <Profile /> 
-          </Layout.Main>
-        </Layout.Root>
-           {/* Comment  the Layout.Root to see other pages  */}
-         {/* <LoginPage/>  */}
+
+      {/* <Layout.Root
+        sx={{
+          ...(drawerOpen && {
+            height: "100vh",
+            overflow: "hidden",
+          }),
+        }}
+      >
+        <Layout.Header>
+          <Appbar />
+        </Layout.Header>
+        <Layout.SideNav>
+          <Navigation />
+        </Layout.SideNav>
+        <Layout.Main>
+          <Profile />
+        </Layout.Main>
+      </Layout.Root> */}
+
+      {/* Comment  the Layout.Root to see other pages  */}
+
+      {/* <LoginPage/>  */}
       {/* <VehicleEntryPage /> */}
       {/* <EntryExitHome/> */}
       {/* <VehicleExitPage/> */}
       {/* <WaitingVehiclesPage /> */}
       {/* <DashboardPage/> */}
-   
+
+      <Layout.Root
+        sx={{
+          ...(drawerOpen && {
+            height: "100vh",
+            overflow: "hidden",
+          }),
+        }}
+      >
+        <Layout.Header>
+          <Appbar />
+        </Layout.Header>
+        <Layout.SideNav>
+          <DashboardSidebar />
+        </Layout.SideNav>
+        <Layout.Main>
+          <DashboardMain />
+        </Layout.Main>
+      </Layout.Root>
     </>
   );
 }
