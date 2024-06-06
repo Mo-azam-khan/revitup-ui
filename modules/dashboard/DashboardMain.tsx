@@ -71,11 +71,11 @@ const columnchart = {
   },
   series: [
     {
-      name: "Corn",
+      name: "Service",
       data: [200, 300, 500, 100, 400, 500],
     },
     {
-      name: "Wheat",
+      name: "Accessories",
       data: [500, 200, 400, 300, 100, 200],
     },
   ],
@@ -130,17 +130,17 @@ const piechart = {
       colorByPoint: true,
       data: [
         {
-          name: "Water",
+          name: "Bay",
           y: 55.02,
         },
         {
-          name: "Fat",
+          name: "Admin",
           sliced: true,
           selected: true,
           y: 26.71,
         },
         {
-          name: "Protein",
+          name: "Manager",
           y: 15.5,
         },
       ],
