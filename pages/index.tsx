@@ -25,7 +25,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* Comment  the Layout.Root to see other pages -start  */}
-       {/* <Layout.Root
+       <Layout.Root
           sx={{
             ...(drawerOpen && {
               height: '100vh',
@@ -40,10 +40,10 @@ export default function Home() {
             <Navigation />
           </Layout.SideNav>
           <Layout.Main>
-             <Profile /> 
+             {/* <Profile />  */}
              <Quotation />
           </Layout.Main>
-        </Layout.Root> */}
+        </Layout.Root>
            {/* Comment  the Layout.Root to see other pages -end  */}
 
 

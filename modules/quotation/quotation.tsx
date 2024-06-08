@@ -1,9 +1,11 @@
-import { Padding } from '@mui/icons-material';
-import { Box, FormControl, FormHelperText, FormLabel, Grid, Input, Modal, ModalClose, ModalDialog, ModalOverflow, Sheet, Stack, Table, Textarea, Typography } from '@mui/joy'
 import React from 'react'
+import { Box, Button, DialogActions, FormControl, FormHelperText, FormLabel, Grid, IconButton, Input, Modal, ModalClose, ModalDialog, ModalOverflow, Option, Select, Sheet, Stack, Table, Textarea, Typography } from '@mui/joy'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import TabIcon from '@mui/icons-material/Tab';
 
 const Quotation = () => {
     const [open, setOpen] = React.useState<boolean>(true);
+    const [modal, setModal] = React.useState<boolean>(false);
 
     return (
         <Modal
@@ -240,14 +242,6 @@ const Quotation = () => {
                                     <Textarea minRows={5} defaultValue="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" />
                                 </FormControl>
                             </Box>
-                            
-                            <Box mb={2}>
-                                <Typography component="h5" level='body-lg' fontWeight="md" mb={1}>Additional Description</Typography>
-                                <FormControl>
-                                    <FormLabel>Remarks</FormLabel>
-                                    <Textarea minRows={5} defaultValue="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s" />
-                                </FormControl>
-                            </Box>
 
                             <Stack flexDirection="row" gap={2}>
                                 <FormControl>
@@ -261,24 +255,153 @@ const Quotation = () => {
                                 </FormControl>
                             </Stack>
                         </Grid>
+
+                        <Grid md={6} mdOffset={1} container>
+                            {["Wheels and Wrenches", "Gears and Grease", "Drive in Autoshop", "Reved Up Repairs", "Rajkamal Car Home"].map((item, i) => (
+                                <Grid xs={12} key={i}>
+                                    <FormControl>
+                                        <FormLabel sx={{width: "100%"}}><Stack flexGrow={1} justifyContent="space-between" flexDirection={'row'} alignItems={'center'}>{item} <IconButton onClick={() => setModal(true)}><TabIcon /></IconButton></Stack></FormLabel>
+                                        <Input
+                                            sx={{ '--Input-decoratorChildHeight': '45px' }}
+                                            defaultValue="9877254"
+                                            required
+                                            endDecorator={
+                                                <Button
+                                                variant="solid"
+                                                color="primary"
+                                                type="submit"
+                                                sx={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+                                                >
+                                                Add
+                                                </Button>
+                                            }
+                                        />
+                                        {/* {data.status === 'failure' && (
+                                        <FormHelperText
+                                            sx={(theme) => ({ color: theme.vars.palette.danger[400] })}
+                                        >
+                                            Oops! something went wrong, please try again later.
+                                        </FormHelperText>
+                                        )}
+                                        {data.status === 'sent' && (
+                                        <FormHelperText
+                                            sx={(theme) => ({ color: theme.vars.palette.primary[400] })}
+                                        >
+                                            You are all set!
+                                        </FormHelperText>
+                                        )} */}
+                                    </FormControl>
+                                </Grid>
+                            ))}
+
+                            <Modal
+                                aria-labelledby="modal-title"
+                                aria-describedby="modal-desc"
+                                open={modal}
+                                onClose={() => setModal(false)}
+                                sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                            >
+                                <Sheet
+                                variant="outlined"
+                                sx={{
+                                    maxWidth: 500,
+                                    borderRadius: 'md',
+                                    p: 3,
+                                    boxShadow: 'lg',
+                                }}
+                                >
+                                <ModalClose variant="solid" color='danger' sx={{ m: 1 }} />
+                                <Typography
+                                    component="h2"
+                                    id="modal-title"
+                                    level="h4"
+                                    textColor="inherit"
+                                    fontWeight="lg"
+                                    mb={2}
+                                >
+                                    Reved Up Repairs
+                                </Typography>
+                                <Stack spacing={3} mb={5}>
+                                    <FormControl>
+                                        <FormLabel>Item</FormLabel>
+                                        <Input defaultValue="Wind Shield" />
+                                    </FormControl>
+
+                                    <FormControl>
+                                        <FormLabel>Description</FormLabel>
+                                        <Input defaultValue="Maruti Omni" />
+                                    </FormControl>
+
+                                    <Grid container columnSpacing={3}>
+                                        <Grid md={4}>
+                                            <FormControl>
+                                                <FormLabel>Quantity</FormLabel>
+                                                <Input defaultValue="2" />
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid md={4}>
+                                            <FormControl>
+                                                <FormLabel>Cost</FormLabel>
+                                                <Input defaultValue="2200" />
+                                            </FormControl>
+                                        </Grid>
+                                        <Grid md={4}>
+                                            <FormControl>
+                                                <FormLabel>Total</FormLabel>
+                                                <Input defaultValue="4400" />
+                                            </FormControl>
+                                        </Grid>
+                                    </Grid>
+                                </Stack>
+                                <DialogActions>
+                                    <Button variant="solid" color="success" onClick={() => setModal(false)}>Confirm</Button>
+                                    <Button variant="plain" color="neutral" onClick={() => setModal(false)}>Back</Button>
+                                </DialogActions>
+                                </Sheet>
+                            </Modal>
+                            
+                        </Grid>
                     </Grid>
 
-                    <Box pt={2}>
+                    <Box pt={5}>
                         <Box sx={{backgroundColor: "#00b9f1"}} p={1}><Typography level='body-lg'>Pre Work Quotation</Typography></Box>
                         <Table borderAxis='none'>
                             <thead>
                                 <tr>
-                                    <td>Product</td>
-                                    <td>Quantity</td>
-                                    <td>Unit Price</td>
-                                    <td>Total Price</td>
+                                    <td><Typography component="h3" level='body-md'>Product</Typography></td>
+                                    <td><Typography component="h3" level='body-md'>Quantity</Typography></td>
+                                    <td><Typography component="h3" level='body-md'>Unit Price</Typography></td>
+                                    <td><Typography component="h3" level='body-md'>Total Price</Typography></td>
                                     <td></td>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Wind Screen</td>
-                                </tr>
+                                {Array.from({length: 3}).map((_, i) => (
+                                    <tr key={i}>
+                                        <td>
+                                            <Typography>Wind Screen</Typography>
+                                            <Typography component="small" level='body-xs'>Model no. 78765</Typography>
+                                        </td>
+                                        <td>
+                                            <Select defaultValue="1 Peices">
+                                                <Option value="1 Peices">1 Peices</Option>
+                                                <Option value="2 Peices">2 Peices</Option>
+                                                <Option value="3 Peices">3 Peices</Option>
+                                                <Option value="4 Peices">4 Peices</Option>
+                                                <Option value="5 Peices">5 Peices</Option>
+                                            </Select>
+                                        </td>
+                                        <td>
+                                            <Typography component="p">INR 20,000</Typography>
+                                        </td>
+                                        <td>
+                                            <Typography component="p">INR 1,00,000</Typography>
+                                        </td>
+                                        <td>
+                                            <IconButton><DeleteForeverIcon /></IconButton>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </Table>
                     </Box>
