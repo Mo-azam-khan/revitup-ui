@@ -10,6 +10,8 @@ import {
   useTheme,
 } from "@mui/material";
 import { toast } from "react-toastify";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 const StyledGrid = styled(Grid)(() => ({
   backgroundColor: "#002e6e",
@@ -36,10 +38,21 @@ export default function VehicleEntryPage() {
 
   return (
     <>
+    <Grid container spacing={2}>
+      <Grid item xs={6} md={4}>
+      <Box>
+      </Box>
+      </Grid>
+      <Grid item xs={6} md={8}>
+      <Box sx={{border: 1 , borderColor: 'divider' , borderRadius: '16px' , mt :15 , p :2 , mr : 24}}>
+      <Tabs aria-label="basic tabs example">
+          <Tab label="Vehicle Entry" style={{minWidth:"50%"}}  />
+          <Tab label="Vehicle Exit"  style={{minWidth:"50%"}}/>
+        </Tabs>
+     </Box>
       <Typography variant="h4" color="#002e6e" pb={3} pt={7}>
         Vehicle Entry
       </Typography>
-
       <TextField
         id="vehicle-number"
         label="Enter Vehicle Number"
@@ -49,7 +62,6 @@ export default function VehicleEntryPage() {
         value={vehicleNumber}
         onChange={(e) => setVehicleNumber(e.target.value)}
       />
-
       <Grid
         display="flex"
         flexWrap="wrap"
@@ -102,23 +114,6 @@ export default function VehicleEntryPage() {
           </Button>
         </Box>
       </Grid>
-      <Grid display="flex" width={"100%"}>
-        <Grid
-          item
-          xs={12}
-          sm={isMobile ? 12 : 8}
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-evenly"
-          alignItems="flex-end"
-        >
-          <Box width={"9rem"}>
-            <Button variant="contained" fullWidth onClick={handleSubmit}>
-              Submit
-            </Button>
-          </Box>
-        </Grid>
-      </Grid>
       {isModalOpen && (
         <div className="modalBackground" onClick={handleCloseModal}>
           <div className="modalContainer" onClick={(e) => e.stopPropagation()}>
@@ -154,7 +149,9 @@ export default function VehicleEntryPage() {
             </Box>
           </div>
         </div>
-      )}
+      )} 
+      </Grid>
+   </Grid>   
     </>
   );
 }
