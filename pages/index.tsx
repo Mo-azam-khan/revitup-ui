@@ -14,6 +14,7 @@ import React from "react";
 import DashboardSidebar from "@/modules/dashboard/DashboardSidebar";
 import DashboardMain from "@/modules/dashboard/DashboardMain";
 import RevedUpRepairs from "@/modules/quotation/RevedUpRepairs";
+import ProfileTable from "@/modules/profile.js/ProfileTable";
 
 export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState<Boolean>(false);
@@ -26,37 +27,37 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* Comment  the Layout.Root to see other pages -start  */}
-       <Layout.Root
-          sx={{
-            ...(drawerOpen && {
-              height: '100vh',
-              overflow: 'hidden',
-            }),
-          }}
-        >
-          <Layout.Header>
-            <Appbar />
-          </Layout.Header>
-          <Layout.SideNav>
-            {/* <Navigation /> */}
-            <DashboardSidebar/>
-          </Layout.SideNav>
-          <Layout.Main>
-             {/* <Profile />  */}
-             {/* <Quotation /> */}
-             <RevedUpRepairs/>
-             <DashboardMain/>
-          </Layout.Main>
-        </Layout.Root>
-           {/* Comment  the Layout.Root to see other pages -end  */}
-
+      <Layout.Root
+        sx={{
+          ...(drawerOpen && {
+            height: "100vh",
+            overflow: "hidden",
+          }),
+        }}
+      >
+        <Layout.Header>
+          <Appbar />
+        </Layout.Header>
+        <Layout.SideNav>
+          {/* <Navigation /> */}
+          <DashboardSidebar />
+        </Layout.SideNav>
+        <Layout.Main>
+          {/* <Profile />  */}
+          {/* <Quotation /> */}
+          {/* <RevedUpRepairs/> */}
+          {/* <DashboardMain/> */}
+          <ProfileTable />
+        </Layout.Main>
+      </Layout.Root>
+      {/* Comment  the Layout.Root to see other pages -end  */}
 
       {/* <LoginPage/>  */}
       {/* <VehicleEntryPage />  */}
       {/* <EntryExitHome/> */}
       {/* <VehicleExitPage/> */}
-     {/* <WaitingVehiclesPage />  */}
-       {/* <DashboardPage/>  */}
+      {/* <WaitingVehiclesPage />  */}
+      {/* <DashboardPage/>  */}
     </>
   );
 }
