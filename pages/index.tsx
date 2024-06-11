@@ -13,6 +13,7 @@ import Head from "next/head";
 import React from "react";
 import DashboardSidebar from "@/modules/dashboard/DashboardSidebar";
 import DashboardMain from "@/modules/dashboard/DashboardMain";
+import RevedUpRepairs from "@/modules/quotation/RevedUpRepairs";
 
 export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState<Boolean>(false);
@@ -37,11 +38,14 @@ export default function Home() {
             <Appbar />
           </Layout.Header>
           <Layout.SideNav>
-            <Navigation />
+            {/* <Navigation /> */}
+            <DashboardSidebar/>
           </Layout.SideNav>
           <Layout.Main>
              {/* <Profile />  */}
-             <Quotation />
+             {/* <Quotation /> */}
+             <RevedUpRepairs/>
+             <DashboardMain/>
           </Layout.Main>
         </Layout.Root>
            {/* Comment  the Layout.Root to see other pages -end  */}
