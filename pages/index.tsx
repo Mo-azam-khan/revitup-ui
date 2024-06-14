@@ -51,7 +51,7 @@ export default function Home() {
           {/* <DashboardMain/> */}
           {/* <ProfileTable /> */}
           <Employees />
-          <ClientCard />
+          {/* <ClientCard /> */}
         </Layout.Main>
       </Layout.Root>
       {/* Comment  the Layout.Root to see other pages -end  */}

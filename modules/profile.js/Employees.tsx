@@ -11,13 +11,12 @@ import {
   IconButton,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import EditIcon from "@mui/icons-material/Edit";
 
 const products = Array(18).fill({
   name: "Mukesh Prasad",
   rating: 4.5,
-  product: "Samsung M30",
-  price: "20,000 INR",
+  proficiency1: "Painter",
+  proficiency2: "Fitting",
   availability: "Available",
   busyStatus: "Busy. Available in 3d 2 hrs",
 });
@@ -25,30 +24,45 @@ const products = Array(18).fill({
 const ProductCard = ({ product }) => (
   <Card>
     <CardContent>
-      <Box display="flex" alignItems="center" mb={2}>
+      <Box display="flex" alignItems="center" mb={2} flexDirection={"column"}>
         <Avatar sx={{ bgcolor: "blue" }}>{product.name.charAt(0)}</Avatar>
         <Box ml={2}>
           <Typography variant="h6">{product.name}</Typography>
-          <Typography color="text.secondary">{product.product}</Typography>
         </Box>
-      </Box>
-      <Box mb={1}>
-        <Typography color="text.primary">{product.price}</Typography>
-        <Typography color="text.secondary">
-          Rating: {product.rating}{" "}
-          <StarIcon
-            sx={{ color: "gold", fontSize: 20, verticalAlign: "bottom" }}
-          />
-        </Typography>
+        <Box display="flex" mt={2}>
+          <Typography
+            color="text.secondary"
+            bgcolor={"#42a5f5"}
+            borderRadius={2}
+            p={0.5}
+          >
+            {product.proficiency1}
+          </Typography>
+          <Typography
+            color="text.secondary"
+            ml={3}
+            bgcolor={"#bdbdbd"}
+            borderRadius={2}
+            p={0.5}
+          >
+            {product.proficiency2}
+          </Typography>
+          <Typography color="text.secondary" ml={3}>
+            {product.rating}{" "}
+            <StarIcon
+              sx={{ color: "gold", fontSize: 20, verticalAlign: "bottom" }}
+            />
+          </Typography>
+        </Box>
       </Box>
       <Box>
         <Typography color="green">{product.availability}</Typography>
         <Typography color="red">{product.busyStatus}</Typography>
       </Box>
     </CardContent>
-    <CardActions>
+    <CardActions style={{ justifyContent: "space-between" }}>
       <Button variant="outlined">View</Button>
-      <Button variant="contained" color="primary">
+      <Button variant="contained" style={{ backgroundColor: "#A29415" }}>
         Add
       </Button>
     </CardActions>
