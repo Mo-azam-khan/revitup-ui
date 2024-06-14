@@ -15,6 +15,7 @@ import DashboardSidebar from "@/modules/dashboard/DashboardSidebar";
 import DashboardMain from "@/modules/dashboard/DashboardMain";
 import RevedUpRepairs from "@/modules/quotation/RevedUpRepairs";
 import ProfileTable from "@/modules/profile.js/ProfileTable";
+import Employees from "@/modules/profile.js/Employees";
 
 export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState<Boolean>(false);
@@ -47,7 +48,8 @@ export default function Home() {
           {/* <Quotation /> */}
           {/* <RevedUpRepairs/> */}
           {/* <DashboardMain/> */}
-          <ProfileTable />
+          {/* <ProfileTable /> */}
+          <Employees/>
         </Layout.Main>
       </Layout.Root>
       {/* Comment  the Layout.Root to see other pages -end  */}
