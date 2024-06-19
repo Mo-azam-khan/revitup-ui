@@ -17,6 +17,7 @@ import RevedUpRepairs from "@/modules/quotation/RevedUpRepairs";
 import ProfileTable from "@/modules/profile.js/ProfileTable";
 import Employees from "@/modules/profile.js/Employees";
 import ClientCard from "@/modules/HRSD/ClientCard";
+import Orders from "@/modules/orders/Orders";
 
 export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState<Boolean>(false);
@@ -50,7 +51,8 @@ export default function Home() {
           {/* <RevedUpRepairs/> */}
           {/* <DashboardMain/> */}
           {/* <ProfileTable /> */}
-          <Employees />
+          {/* <Employees /> */}
+          <Orders/>
           {/* <ClientCard /> */}
         </Layout.Main>
       </Layout.Root>
