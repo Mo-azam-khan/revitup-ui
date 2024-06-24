@@ -18,6 +18,8 @@ import ProfileTable from "@/modules/profile.js/ProfileTable";
 import Employees from "@/modules/profile.js/Employees";
 import ClientCard from "@/modules/HRSD/ClientCard";
 import Orders from "@/modules/orders/Orders";
+import QuotationList from "@/modules/quotation/quotationList";
+import OrderStatus from "@/modules/orders/OrderStatus";
 
 export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState<Boolean>(false);
@@ -52,7 +54,9 @@ export default function Home() {
           {/* <DashboardMain/> */}
           {/* <ProfileTable /> */}
           {/* <Employees /> */}
-          <Orders/>
+          {/* <Orders/> */}
+           <QuotationList/> 
+          {/* <OrderStatus/> */}
           {/* <ClientCard /> */}
         </Layout.Main>
       </Layout.Root>
