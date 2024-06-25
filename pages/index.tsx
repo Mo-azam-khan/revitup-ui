@@ -1,12 +1,11 @@
 import Appbar from "@/modules/common/Appbar";
 import Layout from "@/modules/common/Layout";
 import Navigation from "@/modules/common/Sidebar";
-import DashboardPage from "@/modules/dashboard/Dashboard";
 import EntryExitHome from "@/modules/entry-exit/EntryExitHome";
 import VehicleEntryPage from "@/modules/entry-exit/VehicleEntryPage";
 import VehicleExitPage from "@/modules/entry-exit/VehicleExitPage";
 import LoginPage from "@/modules/login/LoginPage";
-import Profile from "@/modules/profile.js/Profile";
+import Profile from "@/modules/profile/Profile";
 import Quotation from "@/modules/quotation/quotation";
 import WaitingVehiclesPage from "@/modules/waiting-vehicles/WaitingVehiclesPage";
 import Head from "next/head";
@@ -14,12 +13,12 @@ import React from "react";
 import DashboardSidebar from "@/modules/dashboard/DashboardSidebar";
 import DashboardMain from "@/modules/dashboard/DashboardMain";
 import RevedUpRepairs from "@/modules/quotation/RevedUpRepairs";
-import ProfileTable from "@/modules/profile.js/ProfileTable";
-import Employees from "@/modules/profile.js/Employees";
+import Employees from "@/modules/profile/Employees";
 import ClientCard from "@/modules/HRSD/ClientCard";
 import Orders from "@/modules/orders/Orders";
 import QuotationList from "@/modules/quotation/quotationList";
 import OrderStatus from "@/modules/orders/OrderStatus";
+import EmployeeManagement from "@/modules/HR-Employee-management/EmployeeManagement";
 
 export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState<Boolean>(false);
@@ -51,13 +50,13 @@ export default function Home() {
           {/* <Profile />  */}
           {/* <Quotation /> */}
           {/* <RevedUpRepairs/> */}
-          {/* <DashboardMain/> */}
-          {/* <ProfileTable /> */}
+          {/* <DashboardMain /> */}
           {/* <Employees /> */}
           {/* <Orders/> */}
-           <QuotationList/> 
+          {/* <QuotationList/>  */}
           {/* <OrderStatus/> */}
           {/* <ClientCard /> */}
+          <EmployeeManagement />
         </Layout.Main>
       </Layout.Root>
       {/* Comment  the Layout.Root to see other pages -end  */}
@@ -67,7 +66,6 @@ export default function Home() {
       {/* <EntryExitHome/> */}
       {/* <VehicleExitPage/> */}
       {/* <WaitingVehiclesPage />  */}
-      {/* <DashboardPage/>  */}
     </>
   );
 }
