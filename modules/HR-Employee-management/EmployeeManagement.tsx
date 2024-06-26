@@ -23,6 +23,7 @@ import {
   Select,
   InputLabel,
   FormControl,
+  Divider,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -176,6 +177,7 @@ const EmployeeManagement = () => {
                         ? 50
                         : 10}
                     </Typography>
+                    <Divider sx={{ width: "100%", my: 1 }} />
                     <Typography>{title}</Typography>
                   </CardContent>
                 </Card>
@@ -279,6 +281,7 @@ const EmployeeManagement = () => {
                     <Typography variant="h4" color={"#FF681F"}>
                       {item.value}
                     </Typography>
+                    <Divider sx={{ width: "100%", my: 1 }} />
                     <Typography>{item.label}</Typography>
                   </CardContent>
                 </Card>

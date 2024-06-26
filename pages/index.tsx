@@ -19,6 +19,7 @@ import Orders from "@/modules/orders/Orders";
 import QuotationList from "@/modules/quotation/quotationList";
 import OrderStatus from "@/modules/orders/OrderStatus";
 import EmployeeManagement from "@/modules/HR-Employee-management/EmployeeManagement";
+import InventoryManagement from "@/modules/Inventory-Management/InventoryManagement";
 
 export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState<Boolean>(false);
@@ -56,7 +57,8 @@ export default function Home() {
           {/* <QuotationList/>  */}
           {/* <OrderStatus/> */}
           {/* <ClientCard /> */}
-          <EmployeeManagement />
+          {/* <EmployeeManagement /> */}
+          <InventoryManagement />
         </Layout.Main>
       </Layout.Root>
       {/* Comment  the Layout.Root to see other pages -end  */}
