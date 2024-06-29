@@ -57,8 +57,8 @@ export default function Home() {
           {/* <QuotationList/>  */}
           {/* <OrderStatus/> */}
           {/* <ClientCard /> */}
-          {/* <EmployeeManagement /> */}
-          <InventoryManagement />
+          <EmployeeManagement />
+          {/* <InventoryManagement /> */}
         </Layout.Main>
       </Layout.Root>
       {/* Comment  the Layout.Root to see other pages -end  */}

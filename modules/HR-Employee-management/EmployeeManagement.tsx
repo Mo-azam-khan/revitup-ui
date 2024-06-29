@@ -24,13 +24,29 @@ import {
   InputLabel,
   FormControl,
   Divider,
+  Drawer,
+  IconButton as MuiIconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CloseIcon from "@mui/icons-material/Close";
+import WorkIcon from "@mui/icons-material/Work";
+import GroupIcon from "@mui/icons-material/Group";
+import BusinessIcon from "@mui/icons-material/Business";
+import PhoneIcon from "@mui/icons-material/Phone";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const EmployeeManagement = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [viewMode, setViewMode] = useState(true);
 
   useEffect(() => {
     const updateDate = () => {
@@ -43,6 +59,23 @@ const EmployeeManagement = () => {
 
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
+  };
+
+  const handleEditClick = (employee) => {
+    setSelectedEmployee(employee);
+    setIsDrawerOpen(true);
+    setViewMode(false);
+  };
+
+  const handleViewClick = (employee) => {
+    setSelectedEmployee(employee);
+    setIsDrawerOpen(true);
+    setViewMode(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false);
+    setSelectedEmployee(null);
   };
 
   const employees = [
@@ -224,7 +257,7 @@ const EmployeeManagement = () => {
               <TableBody>
                 {employees.map((employee, index) => (
                   <TableRow key={index}>
-                    <TableCell>
+                    <TableCell onClick={() => handleViewClick(employee)}>
                       <Stack direction="row" alignItems="center" spacing={2}>
                         <Avatar alt={employee.name} src="/path/to/avatar.jpg" />
                         <Box>
@@ -250,7 +283,10 @@ const EmployeeManagement = () => {
                     </TableCell>
                     <TableCell>{employee.checkIn}</TableCell>
                     <TableCell>
-                      <IconButton color="primary">
+                      <IconButton
+                        color="primary"
+                        onClick={() => handleEditClick(employee)}
+                      >
                         <EditIcon />
                       </IconButton>
                       <IconButton sx={{ color: "#d50000" }}>
@@ -369,6 +405,262 @@ const EmployeeManagement = () => {
           </TableContainer>
         </>
       )}
+
+      <Drawer
+        anchor="right"
+        open={isDrawerOpen}
+        onClose={handleCloseDrawer}
+        PaperProps={{
+          sx: {
+            width: { xs: "100%", sm: viewMode ? "70%" : "30%" },
+            padding: 2,
+          },
+        }}
+      >
+        <Grid container alignItems="center" justifyContent="space-between">
+          {selectedEmployee && viewMode ? (
+            <Grid item xs>
+              <Typography variant="h6">{selectedEmployee.name}</Typography>
+              <Typography variant="body1">
+                {selectedEmployee.position}
+              </Typography>
+            </Grid>
+          ) : (
+            <Grid item xs>
+              <Typography variant="h6">Edit Profile</Typography>
+            </Grid>
+          )}
+          <Grid item>
+            <MuiIconButton
+              color="inherit"
+              onClick={handleCloseDrawer}
+              sx={{ justifyContent: "flex-end" }}
+              disableRipple
+            >
+              <CloseIcon />
+            </MuiIconButton>
+          </Grid>
+        </Grid>
+
+        {selectedEmployee && viewMode ? (
+          <Box sx={{ mt: 1, px: 2 }}>
+            <Divider sx={{ my: 1 }} />
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography variant="subtitle1">Overview</Typography>
+              <Button variant="outlined">Full Time</Button>
+            </Box>
+            <Typography variant="body2" sx={{ mb: 2 }}>
+              Experience: {selectedEmployee.joiningDate} - 9 years
+            </Typography>
+            <Grid container spacing={2}>
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography variant="subtitle1">Attendance</Typography>
+                <Typography variant="h6" color="#0d47a1">
+                  25/30
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography variant="subtitle1">Working Hours</Typography>
+                <Typography variant="h6" color="#0d47a1">
+                  08.40 H
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Typography variant="subtitle1">Award</Typography>
+                <Typography variant="h6" color="#0d47a1">
+                  2
+                </Typography>
+              </Grid>
+            </Grid>
+
+            <Divider style={{ margin: "10px 0" }} />
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography variant="subtitle1">Work Details</Typography>
+              <Typography variant="subtitle1">EMP 0123456789</Typography>
+            </Box>
+            <Divider sx={{ my: 1 }} />
+            <List>
+              <Grid container spacing={1}>
+                <Grid item xs={12} sm={4}>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <WorkIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Company Overview"
+                      secondary="Lorem ipsum dolor sit amet"
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <CalendarTodayIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Date Join"
+                      secondary={selectedEmployee.joiningDate}
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <GroupIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Team" secondary="12+ members" />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <BusinessIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Country" secondary="India" />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <PhoneIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary="Phone Number"
+                      secondary="9087654321"
+                    />
+                  </ListItem>
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                        <LocationOnIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Address" secondary="Indore" />
+                  </ListItem>
+                </Grid>
+              </Grid>
+            </List>
+
+            <Divider style={{ margin: "10px 0" }} />
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography variant="subtitle1">Employee Activity</Typography>
+              <Button variant="contained" color="primary">
+                Enter Time
+              </Button>
+            </Box>
+            <Divider style={{ margin: "10px 0" }} />
+
+            <List>
+              <ListItem>
+                <ListItemText
+                  primary="Check Out"
+                  secondary="20 June 2024 16:20 - You have successfully checked out"
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary="Create a Proposal Project"
+                  secondary="20 June 2024 09:20 - Have a great time doing it"
+                />
+              </ListItem>
+            </List>
+          </Box>
+        ) : selectedEmployee && !viewMode ? (
+          <Box sx={{ mt: 2 }}>
+            <TextField
+              fullWidth
+              label="Name"
+              variant="outlined"
+              defaultValue={selectedEmployee.name}
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              fullWidth
+              label="Position"
+              variant="outlined"
+              defaultValue={selectedEmployee.position}
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              fullWidth
+              label="Department"
+              variant="outlined"
+              defaultValue={selectedEmployee.department}
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              fullWidth
+              label="Joining Date"
+              variant="outlined"
+              defaultValue={selectedEmployee.joiningDate}
+              sx={{ mb: 2 }}
+            />
+            <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
+              <InputLabel>Availability</InputLabel>
+              <Select
+                defaultValue={selectedEmployee.availability}
+                label="Availability"
+              >
+                <MenuItem value="Available">Available</MenuItem>
+                <MenuItem value="Unavailable">Unavailable</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              fullWidth
+              label="Check In"
+              variant="outlined"
+              defaultValue={selectedEmployee.checkIn}
+              sx={{ mb: 2 }}
+            />
+            <Button variant="contained" color="primary" fullWidth>
+              Save
+            </Button>
+          </Box>
+        ) : null}
+      </Drawer>
     </Box>
   );
 };
