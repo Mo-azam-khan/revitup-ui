@@ -53,7 +53,7 @@ const InventoryManagement = () => {
   ];
 
   return (
-    <Box sx={{ padding: 3 }}>
+    <Box sx={{ padding: 1 }}>
       <Box
         display="flex"
         flexDirection={{ xs: "column", sm: "row" }}

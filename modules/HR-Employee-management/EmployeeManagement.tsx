@@ -165,7 +165,7 @@ const EmployeeManagement = () => {
   };
 
   return (
-    <Box sx={{ padding: 2 }}>
+    <Box sx={{ padding: 1 }}>
       <Box
         sx={{
           display: "flex",
