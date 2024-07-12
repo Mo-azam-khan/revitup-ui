@@ -23,6 +23,7 @@ import InventoryManagement from "@/modules/Inventory-Management/InventoryManagem
 import OrderBilling from "@/modules/orders/OrderBilling";
 import WorkerManagement from "@/modules/Worker-management/WorkerManagement";
 import BayManagement from "@/modules/Bay-Management/BayManagement";
+import WorkerWorking from "@/modules/Worker-working/WorkerWorking";
 
 export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState<Boolean>(false);
@@ -64,7 +65,8 @@ export default function Home() {
           {/* <InventoryManagement /> */}
           {/* <OrderBilling/> */}
           {/* <WorkerManagement /> */}
-          <BayManagement />
+          {/* <BayManagement /> */}
+          <WorkerWorking/>
         </Layout.Main>
       </Layout.Root>
       {/* Comment  the Layout.Root to see other pages -end  */}
