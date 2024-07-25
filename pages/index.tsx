@@ -25,6 +25,7 @@ import WorkerManagement from "@/modules/Worker-management/WorkerManagement";
 import BayManagement from "@/modules/Bay-Management/BayManagement";
 import WorkerWorking from "@/modules/Worker-working/WorkerWorking";
 import FinanceManagement from "@/modules/Finance-Management/FinanceManagement";
+import Receipts from "@/modules/Receipts/Receipts";
 
 export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState<Boolean>(false);
@@ -68,7 +69,8 @@ export default function Home() {
           {/* <WorkerManagement /> */}
           {/* <BayManagement /> */}
           {/* <WorkerWorking/> */}
-          <FinanceManagement/>
+          {/* <FinanceManagement/> */}
+          <Receipts />
         </Layout.Main>
       </Layout.Root>
       {/* Comment  the Layout.Root to see other pages -end  */}
