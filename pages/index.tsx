@@ -55,7 +55,7 @@ export default function Home() {
         </Layout.SideNav>
         <Layout.Main>
           {/* <Profile />  */}
-          {/* <Quotation /> */}
+          <Quotation />
           {/* <RevedUpRepairs/> */}
           {/* <DashboardMain /> */}
           {/* <Employees /> */}
@@ -70,7 +70,7 @@ export default function Home() {
           {/* <BayManagement /> */}
           {/* <WorkerWorking/> */}
           {/* <FinanceManagement/> */}
-          <Receipts />
+          {/* <Receipts /> */}
         </Layout.Main>
       </Layout.Root>
       {/* Comment  the Layout.Root to see other pages -end  */}

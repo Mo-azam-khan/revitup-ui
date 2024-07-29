@@ -166,7 +166,7 @@ const FinanceManagement = () => {
           >
             <Tab label="Analytics" {...a11yProps(0)} />
             <Tab label="Expenses" {...a11yProps(1)} />
-            <Tab label="Income" {...a11yProps(2)} />
+            <Tab label="Sales" {...a11yProps(2)} />
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
