@@ -26,6 +26,8 @@ import BayManagement from "@/modules/Bay-Management/BayManagement";
 import WorkerWorking from "@/modules/Worker-working/WorkerWorking";
 import FinanceManagement from "@/modules/Finance-Management/FinanceManagement";
 import Receipts from "@/modules/Receipts/Receipts";
+import SalarySlip from "@/modules/Salary-Slip/SalarySlip";
+import SignUp from "@/modules/Registration/SignUp";
 
 export default function Home() {
   const [drawerOpen, setDrawerOpen] = React.useState<Boolean>(false);
@@ -38,24 +40,24 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* Comment  the Layout.Root to see other pages -start  */}
-      <Layout.Root
+      {/* <Layout.Root
         sx={{
           ...(drawerOpen && {
             height: "100vh",
             overflow: "hidden",
           }),
         }}
-      >
-        <Layout.Header>
+      > */}
+        {/* <Layout.Header>
           <Appbar />
-        </Layout.Header>
-        <Layout.SideNav>
+        </Layout.Header> */}
+        {/* <Layout.SideNav> */}
           {/* <Navigation /> */}
-          <DashboardSidebar />
-        </Layout.SideNav>
-        <Layout.Main>
+          {/* <DashboardSidebar /> */}
+        {/* </Layout.SideNav> */}
+        {/* <Layout.Main> */}
           {/* <Profile />  */}
-          <Quotation />
+          {/* <Quotation /> */}
           {/* <RevedUpRepairs/> */}
           {/* <DashboardMain /> */}
           {/* <Employees /> */}
@@ -71,12 +73,15 @@ export default function Home() {
           {/* <WorkerWorking/> */}
           {/* <FinanceManagement/> */}
           {/* <Receipts /> */}
-        </Layout.Main>
-      </Layout.Root>
+          {/* <SalarySlip/> */}
+          
+        {/* </Layout.Main> */}
+      {/* </Layout.Root> */}
       {/* Comment  the Layout.Root to see other pages -end  */}
 
       {/* <LoginPage/>  */}
-      {/* <VehicleEntryPage />  */}
+      <SignUp/>
+      {/* <VehicleEntryPage /> */}
       {/* <EntryExitHome/> */}
       {/* <VehicleExitPage/> */}
       {/* <WaitingVehiclesPage />  */}
