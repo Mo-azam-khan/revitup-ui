@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   TextField,
   Typography,
   Box,
   Grid,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
   styled,
   useMediaQuery,
   useTheme,
@@ -16,29 +20,53 @@ import { toast } from "react-toastify";
 const Signup = () => {
   const router = useRouter();
   const [user, setUser] = useState({
-    fullName: "",
+    full_name: "",
     email: "",
-    mobile: "",
+    mobile_number: "",
     designation: "",
+    department_name: "",
+    role_id: "",
+    department_id: "",
     password: "",
-    confirmpassword: "",
+    confirm_password: "",
   });
 
+  const [departments, setDepartments] = useState([]);
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down(800));
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/departments"
+        );
+        if (response.data.status) {
+          setDepartments(response.data.data);
+        } else {
+          console.error("No departments found");
+        }
+      } catch (error) {
+        console.error("Error fetching departments:", error);
+      }
+    };
+    fetchDepartments();
+  }, []);
 
   const onSignup = async (event: any) => {
     event.preventDefault();
     try {
       setLoading(true);
+      const userData = { ...user };
+      delete userData.department_name;
       const response = await axios.post(
-        "http://localhost:8000/api/v1/register",
-        user
+        "http://localhost:8000/api/auth/register",
+        userData
       );
       console.log("signup success", response.data);
-      router.push("/login");
-    } catch (error: any) {
+      router.push("/login"); // Navigate to login page after successful signup
+    } catch (error) {
       console.log("signup failed", error.message);
       toast.error(error.message);
     } finally {
@@ -46,9 +74,41 @@ const Signup = () => {
     }
   };
 
+  const handleDesignationChange = (event: any) => {
+    const designation = event.target.value;
+    const roleMap = {
+      Admin: 1,
+      "Bay Manager": 2,
+      "Project Manager": 3,
+      Worker: 4,
+      CEO: 5,
+      "Security Guard": 6,
+      "Service Manager": 7,
+      "Inventory Manager": 8,
+      "HR Manager": 9,
+    };
+
+    setUser({
+      ...user,
+      designation: designation,
+      role_id: roleMap[designation],
+    });
+  };
+
+  const handleDepartmentChange = (event) => {
+    const selectedDepartment = departments.find(
+      (dept) => dept.department_name === event.target.value
+    );
+
+    setUser({
+      ...user,
+      department_name: selectedDepartment.department_name,
+      department_id: selectedDepartment._id,
+    });
+  };
+
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    console.log("Submitted user data:", user);
     onSignup(event);
   };
 
@@ -106,8 +166,8 @@ const Signup = () => {
               variant="outlined"
               fullWidth
               required
-              value={user.fullName}
-              onChange={(e) => setUser({ ...user, fullName: e.target.value })}
+              value={user.full_name}
+              onChange={(e) => setUser({ ...user, full_name: e.target.value })}
               margin="normal"
             />
 
@@ -127,23 +187,52 @@ const Signup = () => {
               variant="outlined"
               fullWidth
               required
-              value={user.mobile}
-              onChange={(e) => setUser({ ...user, mobile: e.target.value })}
+              value={user.mobile_number}
+              onChange={(e) =>
+                setUser({ ...user, mobile_number: e.target.value })
+              }
               margin="normal"
               type="tel"
             />
 
-            <TextField
-              label="Designation"
-              variant="outlined"
-              fullWidth
-              required
-              value={user.designation}
-              onChange={(e) =>
-                setUser({ ...user, designation: e.target.value })
-              }
-              margin="normal"
-            />
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Designation</InputLabel>
+              <Select
+                value={user.designation}
+                onChange={handleDesignationChange}
+                label="Designation"
+                required
+              >
+                <MenuItem value="Admin">Admin</MenuItem>
+                <MenuItem value="Bay Manager">Bay Manager</MenuItem>
+                <MenuItem value="Project Manager">Project Manager</MenuItem>
+                <MenuItem value="Worker">Worker</MenuItem>
+                <MenuItem value="CEO">CEO</MenuItem>
+                <MenuItem value="Security Guard">Security Guard</MenuItem>
+                <MenuItem value="Service Manager">Service Manager</MenuItem>
+                <MenuItem value="Inventory Manager">Inventory Manager</MenuItem>
+                <MenuItem value="HR Manager">HR Manager</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth margin="normal">
+              <InputLabel>Department</InputLabel>
+              <Select
+                value={user.department_name}
+                onChange={handleDepartmentChange}
+                label="Department"
+                required
+              >
+                {departments.map((department) => (
+                  <MenuItem
+                    key={department._id}
+                    value={department.department_name}
+                  >
+                    {department.department_name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
 
             <TextField
               label="Password"
@@ -161,9 +250,9 @@ const Signup = () => {
               variant="outlined"
               fullWidth
               required
-              value={user.confirmpassword}
+              value={user.confirm_password}
               onChange={(e) =>
-                setUser({ ...user, confirmpassword: e.target.value })
+                setUser({ ...user, confirm_password: e.target.value })
               }
               margin="normal"
               type="password"
@@ -183,7 +272,11 @@ const Signup = () => {
 
             <Typography variant="body2" align="center">
               Already have an account?{" "}
-              <Button href="/login" color="primary">
+              <Button
+                color="primary"
+                onClick={() => router.push("/login")} // Navigate to login on click
+                type="button" // Make sure this button is not treated as a submit button
+              >
                 Sign in
               </Button>
             </Typography>

@@ -14,10 +14,7 @@ import ListDivider from "@mui/joy/ListDivider";
 import Drawer from "@mui/joy/Drawer";
 import ModalClose from "@mui/joy/ModalClose";
 import DialogTitle from "@mui/joy/DialogTitle";
-
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
-import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
@@ -66,19 +63,9 @@ export default function Appbar() {
         spacing={1}
         sx={{ display: { xs: "none", sm: "flex" } }}
       >
-        {/* <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}> */}
-        {/* <Typography sx={{color: `#FFF`}} level="title-lg">RevitUp</Typography> */}
-        {/* <Image></Image> */}
         <div style={{ display: "flex", gap: 1, alignItems: "center" }}>
-          <Image
-            src={RevitupLogo}
-            height={30}
-            width={100}
-            alt="revitup"
-            // style={{ marginLeft: "20px" }}
-          />
+          <Image src={RevitupLogo} height={30} width={100} alt="revitup" />
         </div>
-        {/* </Box> */}
       </Stack>
       <Box sx={{ display: { xs: "inline-flex", sm: "none" } }}>
         <IconButton
