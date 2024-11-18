@@ -140,6 +140,10 @@ export default function LoginPage() {
             <MenuItem value={3}>Project Manager</MenuItem>
             <MenuItem value={4}>Worker</MenuItem>
             <MenuItem value={5}>CEO</MenuItem>
+            <MenuItem value={6}>Security Guard</MenuItem>
+            <MenuItem value={7}>Service Manager</MenuItem>
+            <MenuItem value={8}>Inventory Manager</MenuItem>
+            <MenuItem value={9}>HR Manager</MenuItem>
           </Select>
         </FormControl>
 

@@ -93,8 +93,6 @@
 // import Appbar from "@/modules/common/Appbar";
 // import Layout from "@/modules/common/Layout";
 // import DashboardSidebar from "@/modules/dashboard/DashboardSidebar";
-
-// // Import all page components
 // import Profile from "@/modules/profile/Profile";
 // import Quotation from "@/modules/quotation/quotation";
 // import RevedUpRepairs from "@/modules/quotation/RevedUpRepairs";
@@ -192,61 +190,92 @@
 //         </Layout.SideNav>
 //         <Layout.Main>{renderPageContent()}</Layout.Main>
 //       </Layout.Root>
-//       <SignUp/>
-//       <LoginPage />
 //     </>
 //   );
 // }
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import Appbar from "@/modules/common/Appbar";
 import Layout from "@/modules/common/Layout";
 import DashboardSidebar from "@/modules/dashboard/DashboardSidebar";
+import Profile from "@/modules/profile/Profile";
+import Quotation from "@/modules/quotation/quotation";
+import RevedUpRepairs from "@/modules/quotation/RevedUpRepairs";
 import DashboardMain from "@/modules/dashboard/DashboardMain";
+import Employees from "@/modules/profile/Employees";
+import Orders from "@/modules/orders/Orders";
+import QuotationList from "@/modules/quotation/quotationList";
+import OrderStatus from "@/modules/orders/OrderStatus";
+import ClientCard from "@/modules/HRSD/ClientCard";
+import EmployeeManagement from "@/modules/HR-Employee-management/EmployeeManagement";
+import InventoryManagement from "@/modules/Inventory-Management/InventoryManagement";
+import OrderBilling from "@/modules/orders/OrderBilling";
+import WorkerManagement from "@/modules/Worker-management/WorkerManagement";
+import BayManagement from "@/modules/Bay-Management/BayManagement";
+import WorkerWorking from "@/modules/Worker-working/WorkerWorking";
+import FinanceManagement from "@/modules/Finance-Management/FinanceManagement";
+import Receipts from "@/modules/Receipts/Receipts";
+import SalarySlip from "@/modules/Salary-Slip/SalarySlip";
 import SignUp from "@/modules/Registration/SignUp";
 import LoginPage from "@/modules/login/LoginPage";
 
 export default function Home() {
-  const [currentPage, setCurrentPage] = useState("signup"); // Start with "signup" by default
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState<Boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Authentication state
+  const [currentPage, setCurrentPage] = useState("signUp"); // Default to signup page
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const loggedInStatus = localStorage.getItem("loggedIn") === "true";
-      setIsLoggedIn(loggedInStatus);
-      if (!loggedInStatus) {
-        setCurrentPage("signup");
-      }
-    }
-  }, []);
-
-  const handleLoginSuccess = () => {
-    setIsLoggedIn(true);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("loggedIn", "true"); // Set logged-in status
-    }
-    setCurrentPage("dashboard"); // Go to the dashboard after login
+  // Function to handle login or signup completion
+  const handleAuthSuccess = () => {
+    setIsAuthenticated(true);
+    setCurrentPage("dashboard"); // Redirect to dashboard after login/signup
   };
 
+  // Render the correct component based on `currentPage`
   const renderPageContent = () => {
-    if (!isLoggedIn) {
-      if (currentPage === "signup") {
-        return (
-          <SignUp
-            onSignupSuccess={() => {
-              console.log("Signup success! Redirecting to login.");
-              setCurrentPage("login"); // Set to "login" page
-            }}
-          />
-        );
-      } else if (currentPage === "login") {
-        return <LoginPage onLoginSuccess={handleLoginSuccess} />;
-      }
+    switch (currentPage) {
+      case "profile":
+        return <Profile />;
+      case "quotation":
+        return <Quotation />;
+      case "revedUpRepairs":
+        return <RevedUpRepairs />;
+      case "dashboard":
+        return <DashboardMain />;
+      case "employees":
+        return <Employees />;
+      case "orders":
+        return <Orders />;
+      case "quotationList":
+        return <QuotationList />;
+      case "orderStatus":
+        return <OrderStatus />;
+      case "clientCard":
+        return <ClientCard />;
+      case "employeeManagement":
+        return <EmployeeManagement />;
+      case "inventoryManagement":
+        return <InventoryManagement />;
+      case "orderBilling":
+        return <OrderBilling />;
+      case "workerManagement":
+        return <WorkerManagement />;
+      case "bayManagement":
+        return <BayManagement />;
+      case "workerWorking":
+        return <WorkerWorking />;
+      case "financeManagement":
+        return <FinanceManagement />;
+      case "receipts":
+        return <Receipts />;
+      case "salarySlip":
+        return <SalarySlip />;
+      case "signUp":
+        return <SignUp onLogin={handleAuthSuccess} />;
+      case "login":
+        return <LoginPage onLogin={handleAuthSuccess} />;
+      default:
+        return <DashboardMain />;
     }
-    // Show dashboard content if logged in
-    return <DashboardMain />;
   };
 
   return (
@@ -257,15 +286,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {isLoggedIn ? (
-        <Layout.Root
-          sx={{
-            ...(drawerOpen && {
-              height: "100vh",
-              overflow: "hidden",
-            }),
-          }}
-        >
+
+      {isAuthenticated ? (
+        // Show dashboard with appbar and sidebar after login
+        <Layout.Root>
           <Layout.Header>
             <Appbar />
           </Layout.Header>
@@ -275,9 +299,9 @@ export default function Home() {
           <Layout.Main>{renderPageContent()}</Layout.Main>
         </Layout.Root>
       ) : (
+        // Only show signup/login page without appbar and sidebar
         renderPageContent()
       )}
     </>
   );
 }
-
