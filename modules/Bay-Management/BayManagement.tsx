@@ -105,7 +105,7 @@ const BayManagement = () => {
     },
   ];
 
-  const handleRowClick = (index) => {
+  const handleRowClick = (index: any) => {
     setExpandedRow(expandedRow === index ? null : index);
   };
 

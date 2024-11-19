@@ -276,7 +276,7 @@ import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import BadgeIcon from "@mui/icons-material/Badge";
 
-export default function DashboardSidebar({ setCurrentPage }) {
+export default function DashboardSidebar({ setCurrentPage }: any) {
   const classes =
     "MuiListItemButton-root MuiListItemButton-colorNeutral MuiListItemButton-variantPlain css-1xphdof-JoyListItemButton-root";
   const [openDefineCustomerModal, setOpenDefineCustomerModal] = useState(false);
@@ -349,7 +349,7 @@ export default function DashboardSidebar({ setCurrentPage }) {
           >
             <Link
               className={classes}
-              href="/"
+              href="/dashboard"
               onClick={() => setCurrentPage("dashboard")}
             >
               <ListItemDecorator
@@ -371,7 +371,7 @@ export default function DashboardSidebar({ setCurrentPage }) {
               },
             })}
           >
-            <Link className={classes} href="/">
+            <Link className={classes} href="">
               <ListItemDecorator
                 sx={{
                   color: "neutral.500",
@@ -397,8 +397,9 @@ export default function DashboardSidebar({ setCurrentPage }) {
               },
             })}
           >
-            <div
+            <Link
               className={classes}
+              href="/quotation"
               onClick={() => setCurrentPage("quotation")}
             >
               <ListItemDecorator
@@ -414,7 +415,7 @@ export default function DashboardSidebar({ setCurrentPage }) {
               <ListItemContent sx={{ color: "neutral.500", fontWeight: 400 }}>
                 Quotation
               </ListItemContent>
-            </div>
+            </Link>
           </ListItem>
           <ListItem
             sx={(theme) => ({
@@ -425,8 +426,9 @@ export default function DashboardSidebar({ setCurrentPage }) {
               },
             })}
           >
-            <div
+            <Link
               className={classes}
+              href="/bayManagement"
               onClick={() => setCurrentPage("bayManagement")}
             >
               <ListItemDecorator
@@ -442,7 +444,7 @@ export default function DashboardSidebar({ setCurrentPage }) {
               <ListItemContent sx={{ color: "neutral.500", fontWeight: 400 }}>
                 Bay Management
               </ListItemContent>
-            </div>
+            </Link>
           </ListItem>
           <ListItem
             sx={(theme) => ({
@@ -453,8 +455,9 @@ export default function DashboardSidebar({ setCurrentPage }) {
               },
             })}
           >
-            <div
+            <Link
               className={classes}
+              href="/workerManagement"
               onClick={() => setCurrentPage("workerManagement")}
             >
               <ListItemDecorator
@@ -470,7 +473,7 @@ export default function DashboardSidebar({ setCurrentPage }) {
               <ListItemContent sx={{ color: "neutral.500", fontWeight: 400 }}>
                 Worker
               </ListItemContent>
-            </div>
+            </Link>
           </ListItem>
           <ListItem
             sx={(theme) => ({
@@ -481,8 +484,9 @@ export default function DashboardSidebar({ setCurrentPage }) {
               },
             })}
           >
-            <div
+            <Link
               className={classes}
+              href="/employeeManagement"
               onClick={() => setCurrentPage("employeeManagement")}
             >
               <ListItemDecorator
@@ -498,7 +502,7 @@ export default function DashboardSidebar({ setCurrentPage }) {
               <ListItemContent sx={{ color: "neutral.500", fontWeight: 400 }}>
                 HR Employee
               </ListItemContent>
-            </div>
+            </Link>
           </ListItem>
 
           <ListItem
@@ -510,8 +514,9 @@ export default function DashboardSidebar({ setCurrentPage }) {
               },
             })}
           >
-            <div
+            <Link
               className={classes}
+              href="/inventoryManagement"
               onClick={() => setCurrentPage("inventoryManagement")}
             >
               <ListItemDecorator
@@ -527,7 +532,7 @@ export default function DashboardSidebar({ setCurrentPage }) {
               <ListItemContent sx={{ color: "neutral.500", fontWeight: 400 }}>
                 Inventory
               </ListItemContent>
-            </div>
+            </Link>
           </ListItem>
           <ListItem
             sx={(theme) => ({
@@ -538,8 +543,9 @@ export default function DashboardSidebar({ setCurrentPage }) {
               },
             })}
           >
-            <div
+            <Link
               className={classes}
+              href="/financeManagement"
               onClick={() => setCurrentPage("financeManagement")}
             >
               <ListItemDecorator
@@ -555,7 +561,7 @@ export default function DashboardSidebar({ setCurrentPage }) {
               <ListItemContent sx={{ color: "neutral.500", fontWeight: 400 }}>
                 Finance
               </ListItemContent>
-            </div>
+            </Link>
           </ListItem>
           <ListItem
             sx={(theme) => ({
@@ -566,7 +572,12 @@ export default function DashboardSidebar({ setCurrentPage }) {
               },
             })}
           >
-            <div className={classes} onClick={() => setCurrentPage("profile")}>
+            {/* <div className={classes} onClick={() => setCurrentPage("profile")}> */}
+            <Link
+              className={classes}
+              href="/profile"
+              onClick={() => setCurrentPage("profile")}
+            >
               <ListItemDecorator
                 sx={{
                   color: "neutral.500",
@@ -580,7 +591,8 @@ export default function DashboardSidebar({ setCurrentPage }) {
               <ListItemContent sx={{ color: "neutral.500", fontWeight: 400 }}>
                 Profile
               </ListItemContent>
-            </div>
+            </Link>
+            {/* </div> */}
           </ListItem>
         </List>
       </Box>
