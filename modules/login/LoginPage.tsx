@@ -17,6 +17,7 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const StyledGrid = styled(Grid)(() => ({
   backgroundColor: "#002e6e",
@@ -57,9 +58,34 @@ export default function LoginPage() {
     });
   };
 
+  // const handleLogin = async (event: any) => {
+  //   event.preventDefault();
+  //   if (!loginData.username || !loginData.role_id || !loginData.password) {
+  //     toast.error("All fields are required!");
+  //     return;
+  // }
+  //   setLoading(true);
+
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:8000/api/auth/login",
+  //       loginData
+  //     );
+  //     const { token } = response.data;
+  //   localStorage.setItem("authToken", token); // Save token
+
+  //     toast.success("Login successful!");
+  //     router.push("/dashboard");
+  //   } catch (error) {
+  //     console.error("Login failed:", error);
+  //     toast.error("Login failed. Please check your credentials and try again.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleLogin = async (event: any) => {
     event.preventDefault();
-    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -67,13 +93,34 @@ export default function LoginPage() {
         loginData
       );
 
+      // Log full response to verify structure
+      console.log("Full Response:", response.data);
+
+      // Extract token and role_id from nested data object
+      const { token, role_id } = response.data.data;
+
+      if (!token || role_id === undefined) {
+        console.error("Missing token or role_id in response.");
+        return toast.error("Login failed. Invalid response from server.");
+      }
+
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("roleId", role_id);
+
       toast.success("Login successful!");
-      router.push("/dashboard");
+
+      // Redirect based on role_id
+      if (role_id === 6) {
+        router.push("/EntryExitHome");
+      } else {
+        router.push("/dashboard");
+      }
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error(
+        "Login failed:",
+        error.response ? error.response.data : error.message
+      );
       toast.error("Login failed. Please check your credentials and try again.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -165,7 +212,8 @@ export default function LoginPage() {
             onClick={handleLogin}
             disabled={loading}
           >
-            {loading ? "Logging in..." : "Login"}
+            {/* {loading ? "Logging in..." : "Login"} */}
+            {loading ? <CircularProgress size={24} /> : "Login"}
           </StyledLoginButton>
         </Box>
         <Typography variant="body1" color="#002e6e" py={isMobile ? 1 : 2}>
