@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   Typography,
   Box,
-  styled,
   Grid,
   useMediaQuery,
   useTheme,
   Button,
+  styled,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import axios from "axios";
 
 const StyledGrid = styled(Grid)(() => ({
   backgroundColor: "#002e6e",
@@ -20,25 +21,43 @@ export default function WaitingVehiclesPage() {
   const isMobile = useMediaQuery(theme.breakpoints.down(800));
 
   const [searchValue, setSearchValue] = useState("");
-
-  const waitingVehicles = [
-    { vehicleNumber: "MP48MH3930" },
-    { vehicleNumber: "MP09CZ7111" },
-    { vehicleNumber: "MP04CY7544" },
-  ];
-
+  const [waitingVehicles, setWaitingVehicles] = useState([]);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
-  const handleSearchChange = (event: any) => {
-    setSearchValue(event.target.value);
-    setHighlightedIndex(-1);
+  // Fetch the list of waiting vehicles
+  const fetchVehicles = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+
+      const response = await axios.get(
+        "http://localhost:8000/api/vehicles/waiting",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          params: {
+            search_key: searchValue,
+            page: 1,
+            limit: 10,
+          },
+        }
+      );
+
+      console.log("API Response:", response.data);
+
+      if (response.data.status) {
+        setWaitingVehicles(response.data.data.data);
+      } else {
+        setWaitingVehicles([]);
+      }
+    } catch (error) {
+      console.error("Error fetching vehicles:", error);
+      setWaitingVehicles([]);
+    }
   };
 
   const handleSearch = () => {
-    const index = waitingVehicles.findIndex(
-      (vehicle) => vehicle.vehicleNumber === searchValue
-    );
-    setHighlightedIndex(index);
+    fetchVehicles();
   };
 
   return (
@@ -62,6 +81,7 @@ export default function WaitingVehiclesPage() {
           </Typography>
         </StyledGrid>
       )}
+
       <Grid
         item
         xs={12}
@@ -76,7 +96,8 @@ export default function WaitingVehiclesPage() {
         <Typography variant="h4" color="#002e6e">
           Waiting Vehicles
         </Typography>
-        <Box mb={2}>
+
+        <Box mb={2} display="flex" alignItems="center">
           <TextField
             id="search"
             label="Search"
@@ -87,7 +108,7 @@ export default function WaitingVehiclesPage() {
               startAdornment: <SearchIcon />,
             }}
             value={searchValue}
-            onChange={handleSearchChange}
+            onChange={(event) => setSearchValue(event.target.value)}
           />
 
           <Button
@@ -99,24 +120,29 @@ export default function WaitingVehiclesPage() {
           </Button>
         </Box>
 
-        {waitingVehicles.map((vehicle, index) => (
-          <Box
-            key={index}
-            mb={1}
-            sx={{
-              backgroundColor:
-                highlightedIndex === index ? "#ffef9f" : "transparent",
-              padding: 1,
-            }}
-            onClick={() => setHighlightedIndex(index)}
-          >
-            <Typography
-              color={highlightedIndex === index ? "#002e6e" : "inherit"}
+        {waitingVehicles.length > 0 ? (
+          waitingVehicles.map((vehicle: any, index: number) => (
+            <Box
+              key={vehicle._id}
+              mb={1}
+              sx={{
+                backgroundColor:
+                  highlightedIndex === index ? "#ffef9f" : "transparent",
+                padding: 1,
+                cursor: "pointer",
+              }}
+              onClick={() => setHighlightedIndex(index)}
             >
-              {vehicle.vehicleNumber}
-            </Typography>
-          </Box>
-        ))}
+              <Typography
+                color={highlightedIndex === index ? "#002e6e" : "inherit"}
+              >
+                {vehicle.vehicle_number}
+              </Typography>
+            </Box>
+          ))
+        ) : (
+          <Typography color="#002e6e">No vehicles found.</Typography>
+        )}
       </Grid>
     </Grid>
   );

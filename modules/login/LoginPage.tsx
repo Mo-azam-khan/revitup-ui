@@ -58,32 +58,6 @@ export default function LoginPage() {
     });
   };
 
-  // const handleLogin = async (event: any) => {
-  //   event.preventDefault();
-  //   if (!loginData.username || !loginData.role_id || !loginData.password) {
-  //     toast.error("All fields are required!");
-  //     return;
-  // }
-  //   setLoading(true);
-
-  //   try {
-  //     const response = await axios.post(
-  //       "http://localhost:8000/api/auth/login",
-  //       loginData
-  //     );
-  //     const { token } = response.data;
-  //   localStorage.setItem("authToken", token); // Save token
-
-  //     toast.success("Login successful!");
-  //     router.push("/dashboard");
-  //   } catch (error) {
-  //     console.error("Login failed:", error);
-  //     toast.error("Login failed. Please check your credentials and try again.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleLogin = async (event: any) => {
     event.preventDefault();
 
@@ -112,6 +86,9 @@ export default function LoginPage() {
       // Redirect based on role_id
       if (role_id === 6) {
         router.push("/EntryExitHome");
+      }
+      if (role_id === 7) {
+        router.push("/WaitingVehiclesPage");
       } else {
         router.push("/dashboard");
       }
