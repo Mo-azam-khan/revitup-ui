@@ -8,9 +8,16 @@ import {
   useTheme,
   Button,
   styled,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
+import VehicleInfo from "./VehicleInfo";
+import UploadPhotoExterior from "./UploadPhotoExterior";
+import UploadPhotoInterior from "./UploadPhotoInterior";
 
 const StyledGrid = styled(Grid)(() => ({
   backgroundColor: "#002e6e",
@@ -24,7 +31,12 @@ export default function WaitingVehiclesPage() {
   const [waitingVehicles, setWaitingVehicles] = useState([]);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
-  // Fetch the list of waiting vehicles
+  const [open, setOpen] = useState(false);
+  const [vehicleInfoOpen, setVehicleInfoOpen] = useState(false);
+  const [uploadPhotoOpen, setUploadPhotoOpen] = useState(false);
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
+  const [openPhotoInterior, setOpenPhotoInterior] = useState(false);
+
   const fetchVehicles = async () => {
     try {
       const token = localStorage.getItem("authToken");
@@ -43,8 +55,6 @@ export default function WaitingVehiclesPage() {
         }
       );
 
-      console.log("API Response:", response.data);
-
       if (response.data.status) {
         setWaitingVehicles(response.data.data.data);
       } else {
@@ -58,6 +68,51 @@ export default function WaitingVehiclesPage() {
 
   const handleSearch = () => {
     fetchVehicles();
+  };
+
+  // Open vehicle details modal
+  const handleOpenDefineCustomerModal = (vehicle: any) => {
+    setSelectedVehicle(vehicle);
+    setOpen(true);
+  };
+
+  // Close vehicle details modal
+  const handleCloseModal = () => {
+    setOpen(false);
+    setSelectedVehicle(null);
+  };
+
+  // Open job card modal
+  const handleOpenVehicleInfoModal = () => {
+    setOpen(false);
+    setVehicleInfoOpen(true);
+  };
+
+  // Close job card modal
+  const handleCloseVehicleInfoModal = () => {
+    setVehicleInfoOpen(false);
+  };
+
+  // Open upload photo modal
+  const handleOpenUploadPhotoModal = () => {
+    setVehicleInfoOpen(false);
+    setUploadPhotoOpen(true);
+  };
+
+  // Close upload photo modal
+  const handleCloseUploadPhotoModal = () => {
+    setUploadPhotoOpen(false);
+  };
+
+  // Open UploadPhotoInterior modal
+  const handleOpenPhotoInterior = () => {
+    setUploadPhotoOpen(false);
+    setOpenPhotoInterior(true);
+  };
+
+  // Close UploadPhotoInterior modal
+  const handleClosePhotoInterior = () => {
+    setOpenPhotoInterior(false);
   };
 
   return (
@@ -131,7 +186,7 @@ export default function WaitingVehiclesPage() {
                 padding: 1,
                 cursor: "pointer",
               }}
-              onClick={() => setHighlightedIndex(index)}
+              onClick={() => handleOpenDefineCustomerModal(vehicle)}
             >
               <Typography
                 color={highlightedIndex === index ? "#002e6e" : "inherit"}
@@ -144,6 +199,63 @@ export default function WaitingVehiclesPage() {
           <Typography color="#002e6e">No vehicles found.</Typography>
         )}
       </Grid>
+
+      {/* Vehicle Details Modal */}
+      <Dialog open={open} onClose={handleCloseModal} fullWidth maxWidth="sm">
+        <DialogTitle>Define Customer</DialogTitle>
+        <DialogContent>
+          {selectedVehicle ? (
+            <Box>
+              <Typography variant="body1">
+                Vehicle Number: {selectedVehicle.vehicle_number}
+              </Typography>
+              <Typography variant="body1">
+                Entry For: {selectedVehicle.entry_for}
+              </Typography>
+              <Typography variant="body1">
+                Status: {selectedVehicle.status}
+              </Typography>
+              <Typography variant="body1">
+                Entry Time:{" "}
+                {new Date(selectedVehicle.entry_time).toLocaleString()}
+              </Typography>
+            </Box>
+          ) : (
+            <Typography variant="body1">No vehicle selected.</Typography>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleOpenVehicleInfoModal} // Open job card modal
+          >
+            Create Job Card
+          </Button>
+          <Button onClick={handleCloseModal} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Job Card Modal */}
+      <VehicleInfo
+        open={vehicleInfoOpen}
+        handleClose={handleCloseVehicleInfoModal}
+        onProceed={handleOpenUploadPhotoModal}
+      />
+
+      {/* Upload Photo Exterior Modal */}
+      <UploadPhotoExterior
+        open={uploadPhotoOpen}
+        handleClose={handleCloseUploadPhotoModal}
+        onProceed={handleOpenPhotoInterior}
+      />
+
+      <UploadPhotoInterior
+        open={openPhotoInterior}
+        handleClose={handleClosePhotoInterior}
+      />
     </Grid>
   );
 }

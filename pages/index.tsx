@@ -117,18 +117,17 @@ import EntryExitHome from "@/modules/entry-exit/EntryExitHome";
 import WaitingVehiclesPage from "@/modules/waiting-vehicles/WaitingVehiclesPage";
 
 export default function Home() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Authentication state
-  const [currentPage, setCurrentPage] = useState("signUp"); // Default to signup page
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentPage, setCurrentPage] = useState("signUp");
 
-  // Function to handle login or signup completion
   const handleAuthSuccess = (roleId) => {
     setIsAuthenticated(true);
 
     // Redirect based on role ID
     if (roleId === 6) {
-      setCurrentPage("EntryExitHome"); // Redirect to EntryExitHome for role_id 6
+      setCurrentPage("EntryExitHome");
     } else {
-      setCurrentPage("dashboard"); // Redirect to dashboard for other roles
+      setCurrentPage("dashboard");
     }
   };
 

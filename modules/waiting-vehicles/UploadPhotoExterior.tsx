@@ -24,7 +24,7 @@ const style = {
   overflowY: "auto",
 };
 
-const UploadPhotoExterior = ({ open, handleClose } : any) => {
+const UploadPhotoExterior = ({ open, handleClose, onProceed }: any) => {
   return (
     <Modal
       open={open}
@@ -46,7 +46,7 @@ const UploadPhotoExterior = ({ open, handleClose } : any) => {
             variant="h6"
             component="h2"
           >
-            Upload Vehicle Photographs
+            Upload Vehicle Photographs Exterior
           </Typography>
           <IconButton onClick={handleClose}>
             <CloseIcon />
@@ -84,8 +84,8 @@ const UploadPhotoExterior = ({ open, handleClose } : any) => {
           ))}
         </Grid>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Button variant="contained" onClick={handleClose}>
-            Proceed with test drive
+          <Button variant="contained" color="success" onClick={onProceed}>
+            Proceed
           </Button>
         </Box>
       </Box>

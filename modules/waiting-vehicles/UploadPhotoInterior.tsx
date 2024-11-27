@@ -24,7 +24,7 @@ const style = {
   overflowY: "auto",
 };
 
-const UploadPhotoInterior = ({ open, handleClose, onProceed } :any) => {
+const UploadPhotoInterior = ({ open, handleClose, onProceed }: any) => {
   return (
     <Modal
       open={open}
@@ -46,7 +46,7 @@ const UploadPhotoInterior = ({ open, handleClose, onProceed } :any) => {
             variant="h6"
             component="h2"
           >
-            Upload Vehicle Photographs
+            Upload Vehicle Photographs Interior
           </Typography>
           <IconButton onClick={handleClose}>
             <CloseIcon />
