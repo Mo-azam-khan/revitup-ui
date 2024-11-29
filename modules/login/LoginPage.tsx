@@ -81,13 +81,14 @@ export default function LoginPage() {
       localStorage.setItem("authToken", token);
       localStorage.setItem("roleId", role_id);
 
+      localStorage.setItem("token", response.data.data.token);
+
       toast.success("Login successful!");
 
       // Redirect based on role_id
       if (role_id === 6) {
         router.push("/EntryExitHome");
-      }
-      if (role_id === 7) {
+      } else if (role_id === 7) {
         router.push("/WaitingVehiclesPage");
       } else {
         router.push("/dashboard");

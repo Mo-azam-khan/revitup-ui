@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   Box,
@@ -25,6 +25,29 @@ const style = {
 };
 
 const UploadPhotoExterior = ({ open, handleClose, onProceed }: any) => {
+  const [uploadedFiles, setUploadedFiles] = useState({
+    vehicle_front_pic: null,
+    vehicle_rear_pic: null,
+    vehicle_right_pic: null,
+    vehicle_left_pic: null,
+    focus_area_1_pic: null,
+    focus_area_2_pic: null,
+  });
+
+  const handleFileChange = (e, field) => {
+    const file = e.target.files[0];
+    setUploadedFiles((prev) => ({
+      ...prev,
+      [field]: file,
+    }));
+  };
+
+  const handleProceed = () => {
+    // Save data to localStorage
+    localStorage.setItem("uploadedPhotos", JSON.stringify(uploadedFiles));
+    onProceed();
+  };
+
   return (
     <Modal
       open={open}
@@ -58,12 +81,12 @@ const UploadPhotoExterior = ({ open, handleClose, onProceed }: any) => {
         </Typography>
         <Grid container spacing={2} sx={{ mb: 2 }}>
           {[
-            "Front",
-            "Rear",
-            "Right",
-            "Left",
-            "Focus Area 1",
-            "Focus Area 2",
+            { field: "vehicle_front_pic", label: "Front" },
+            { field: "vehicle_rear_pic", label: "Rear" },
+            { field: "vehicle_right_pic", label: "Right" },
+            { field: "vehicle_left_pic", label: "Left" },
+            { field: "focus_area_1_pic", label: "Focus Area 1" },
+            { field: "focus_area_2_pic", label: "Focus Area 2" },
           ].map((item, index) => (
             <Grid item xs={6} key={index}>
               <Box
@@ -74,17 +97,21 @@ const UploadPhotoExterior = ({ open, handleClose, onProceed }: any) => {
                   borderRadius: 2,
                 }}
               >
-                <Typography variant="body1">{item}</Typography>
+                <Typography variant="body1">{item.label}</Typography>
                 <Button variant="contained" component="label" sx={{ mt: 1 }}>
                   Upload Photograph
-                  <input type="file" hidden />
+                  <input
+                    type="file"
+                    hidden
+                    onChange={(e) => handleFileChange(e, item.field)}
+                  />
                 </Button>
               </Box>
             </Grid>
           ))}
         </Grid>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Button variant="contained" color="success" onClick={onProceed}>
+          <Button variant="contained" color="success" onClick={handleProceed}>
             Proceed
           </Button>
         </Box>

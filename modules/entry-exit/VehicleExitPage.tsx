@@ -540,7 +540,7 @@ export default function VehicleExitPage() {
   // };
 
   const fetchEnteredVehicles = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
     if (!token) {
       toast.error("Authentication token is missing. Please log in.");
       return;
