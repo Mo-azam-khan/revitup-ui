@@ -275,8 +275,10 @@ import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import BadgeIcon from "@mui/icons-material/Badge";
+import router, { useRouter } from "next/router";
 
 export default function DashboardSidebar({ setCurrentPage }: any) {
+  const router = useRouter();
   const classes =
     "MuiListItemButton-root MuiListItemButton-colorNeutral MuiListItemButton-variantPlain css-1xphdof-JoyListItemButton-root";
   const [openDefineCustomerModal, setOpenDefineCustomerModal] = useState(false);
@@ -349,8 +351,13 @@ export default function DashboardSidebar({ setCurrentPage }: any) {
           >
             <Link
               className={classes}
+              // href="/dashboard"
+              // onClick={() => setCurrentPage("dashboard")}
               href="/dashboard"
-              onClick={() => setCurrentPage("dashboard")}
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/dashboard");
+              }}
             >
               <ListItemDecorator
                 sx={{ m: 0, justifyContent: "center", width: "100%" }}
@@ -399,8 +406,13 @@ export default function DashboardSidebar({ setCurrentPage }: any) {
           >
             <Link
               className={classes}
+              // href="/quotation"
+              // onClick={() => setCurrentPage("quotation")}
               href="/quotation"
-              onClick={() => setCurrentPage("quotation")}
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/quotation");
+              }}
             >
               <ListItemDecorator
                 sx={{
@@ -428,8 +440,13 @@ export default function DashboardSidebar({ setCurrentPage }: any) {
           >
             <Link
               className={classes}
+              // href="/bayManagement"
+              // onClick={() => setCurrentPage("bayManagement")}
               href="/bayManagement"
-              onClick={() => setCurrentPage("bayManagement")}
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/bayManagement");
+              }}
             >
               <ListItemDecorator
                 sx={{
@@ -457,8 +474,13 @@ export default function DashboardSidebar({ setCurrentPage }: any) {
           >
             <Link
               className={classes}
+              // href="/workerManagement"
+              // onClick={() => setCurrentPage("workerManagement")}
               href="/workerManagement"
-              onClick={() => setCurrentPage("workerManagement")}
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/workerManagement");
+              }}
             >
               <ListItemDecorator
                 sx={{
@@ -486,8 +508,13 @@ export default function DashboardSidebar({ setCurrentPage }: any) {
           >
             <Link
               className={classes}
+              // href="/employeeManagement"
+              // onClick={() => setCurrentPage("employeeManagement")}
               href="/employeeManagement"
-              onClick={() => setCurrentPage("employeeManagement")}
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/employeeManagement");
+              }}
             >
               <ListItemDecorator
                 sx={{
@@ -516,8 +543,13 @@ export default function DashboardSidebar({ setCurrentPage }: any) {
           >
             <Link
               className={classes}
+              // href="/inventoryManagement"
+              // onClick={() => setCurrentPage("inventoryManagement")}
               href="/inventoryManagement"
-              onClick={() => setCurrentPage("inventoryManagement")}
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/inventoryManagement");
+              }}
             >
               <ListItemDecorator
                 sx={{
@@ -545,8 +577,13 @@ export default function DashboardSidebar({ setCurrentPage }: any) {
           >
             <Link
               className={classes}
+              // href="/financeManagement"
+              // onClick={() => setCurrentPage("financeManagement")}
               href="/financeManagement"
-              onClick={() => setCurrentPage("financeManagement")}
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/financeManagement");
+              }}
             >
               <ListItemDecorator
                 sx={{
@@ -572,11 +609,15 @@ export default function DashboardSidebar({ setCurrentPage }: any) {
               },
             })}
           >
-            {/* <div className={classes} onClick={() => setCurrentPage("profile")}> */}
             <Link
               className={classes}
+              // href="/profile"
+              // onClick={() => setCurrentPage("profile")}
               href="/profile"
-              onClick={() => setCurrentPage("profile")}
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/profile");
+              }}
             >
               <ListItemDecorator
                 sx={{
@@ -592,7 +633,6 @@ export default function DashboardSidebar({ setCurrentPage }: any) {
                 Profile
               </ListItemContent>
             </Link>
-            {/* </div> */}
           </ListItem>
         </List>
       </Box>
