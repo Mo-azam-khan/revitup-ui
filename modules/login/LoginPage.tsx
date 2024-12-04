@@ -90,6 +90,8 @@ export default function LoginPage() {
         router.push("/EntryExitHome");
       } else if (role_id === 7) {
         router.push("/WaitingVehiclesPage");
+      } else if (role_id === 2) {
+        router.push("/bayManagement");
       } else {
         router.push("/dashboard");
       }
