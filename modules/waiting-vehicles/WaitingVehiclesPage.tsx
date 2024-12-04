@@ -18,6 +18,7 @@ import axios from "axios";
 import VehicleInfo from "./VehicleInfo";
 import UploadPhotoExterior from "./UploadPhotoExterior";
 import UploadPhotoInterior from "./UploadPhotoInterior";
+import Quotation from "../quotation/quotation";
 
 const StyledGrid = styled(Grid)(() => ({
   backgroundColor: "#002e6e",
@@ -36,6 +37,7 @@ export default function WaitingVehiclesPage() {
   const [uploadPhotoOpen, setUploadPhotoOpen] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [openPhotoInterior, setOpenPhotoInterior] = useState(false);
+  const [openQuotationPopup, setOpenQuotationPopup] = useState(false);
 
   const fetchVehicles = async () => {
     try {
@@ -115,6 +117,14 @@ export default function WaitingVehiclesPage() {
     setOpenPhotoInterior(false);
   };
 
+  const handleOpenQuotationPopup = () => {
+    setOpenPhotoInterior(false); // Close the current modal
+    setOpenQuotationPopup(true); // Open the quotation popup
+  };
+
+  const handleCloseQuotationPopup = () => {
+    setOpenQuotationPopup(false);
+  };
   return (
     <Grid container height="100vh">
       {!isMobile && (
@@ -255,6 +265,12 @@ export default function WaitingVehiclesPage() {
       <UploadPhotoInterior
         open={openPhotoInterior}
         handleClose={handleClosePhotoInterior}
+        onProceed={handleOpenQuotationPopup}
+      />
+
+      <Quotation
+        open={openQuotationPopup}
+        handleClose={handleCloseQuotationPopup}
       />
     </Grid>
   );

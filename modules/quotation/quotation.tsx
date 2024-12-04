@@ -24,8 +24,8 @@ import {
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import TabIcon from "@mui/icons-material/Tab";
 
-const Quotation = () => {
-  const [open, setOpen] = React.useState<boolean>(true);
+const Quotation = ({ open, handleClose }: any) => {
+  // const [open, setOpen] = React.useState<boolean>(true);
   const [modal, setModal] = React.useState<boolean>(false);
 
   return (
@@ -33,7 +33,8 @@ const Quotation = () => {
       aria-labelledby="modal-title"
       aria-describedby="modal-desc"
       open={open}
-      onClose={() => setOpen(false)}
+      // onClose={() => setOpen(false)}
+      onClose={handleClose}
       sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
     >
       <ModalOverflow>
