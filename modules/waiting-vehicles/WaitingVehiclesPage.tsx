@@ -38,6 +38,7 @@ export default function WaitingVehiclesPage() {
   const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [openPhotoInterior, setOpenPhotoInterior] = useState(false);
   const [openQuotationPopup, setOpenQuotationPopup] = useState(false);
+  const [jobCardId, setJobCardId] = useState(null);
 
   const fetchVehicles = async () => {
     try {
@@ -117,9 +118,13 @@ export default function WaitingVehiclesPage() {
     setOpenPhotoInterior(false);
   };
 
-  const handleOpenQuotationPopup = () => {
-    setOpenPhotoInterior(false); // Close the current modal
-    setOpenQuotationPopup(true); // Open the quotation popup
+  const handleOpenQuotationPopup = (jobCardId: any) => {
+    if (!jobCardId) {
+      console.error("No JobCardId provided");
+      return;
+    }
+    setJobCardId(jobCardId); // State to store the ID
+    setOpenQuotationPopup(true);
   };
 
   const handleCloseQuotationPopup = () => {
@@ -271,6 +276,7 @@ export default function WaitingVehiclesPage() {
       <Quotation
         open={openQuotationPopup}
         handleClose={handleCloseQuotationPopup}
+        jobCardId={jobCardId}
       />
     </Grid>
   );
