@@ -92,6 +92,10 @@ export default function LoginPage() {
         router.push("/WaitingVehiclesPage");
       } else if (role_id === 2) {
         router.push("/bayManagement");
+      } else if (role_id === 8) {
+        router.push("/inventoryManagement");
+      } else if (role_id === 9) {
+        router.push("/employeeManagement");
       } else {
         router.push("/dashboard");
       }
