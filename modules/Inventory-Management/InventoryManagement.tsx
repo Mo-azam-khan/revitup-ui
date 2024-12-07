@@ -282,8 +282,8 @@ const InventoryManagement = () => {
   const fetchInventory = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/products`);
-      if (response.data.success) {
-        setInventory(response.data.data.docs);
+      if (response.data.status) {
+        setInventory(response.data.data.data);
       }
     } catch (error) {
       console.error("Error fetching inventory:", error);
@@ -480,6 +480,22 @@ const InventoryManagement = () => {
               variant="outlined"
               size="small"
               value={newProduct.price}
+              onChange={handleInputChange}
+            />
+            <TextField
+              name="incoming"
+              label="Incoming Stock"
+              variant="outlined"
+              size="small"
+              value={newProduct.incoming}
+              onChange={handleInputChange}
+            />
+            <TextField
+              name="outgoing"
+              label="Outgoing Stock"
+              variant="outlined"
+              size="small"
+              value={newProduct.outgoing}
               onChange={handleInputChange}
             />
           </Box>
