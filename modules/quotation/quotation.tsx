@@ -513,87 +513,13 @@
 
 // export default Quotation;
 
-// import React, { useEffect, useState } from "react";
-// import {
-//   Dialog,
-//   DialogTitle,
-//   DialogContent,
-//   Typography,
-//   Box,
-// } from "@mui/material";
-// import axios from "axios";
-
-// const Quotation = ({ open, handleClose, jobCardId }) => {
-//   const [jobCardData, setJobCardData] = useState(null);
-
-//   useEffect(() => {
-//     const fetchJobCardData = async () => {
-//       if (!jobCardId) {
-//         console.error("No JobCardId provided");
-//         return;
-//       }
-
-//       try {
-//         const token = localStorage.getItem("authToken");
-//         const response = await axios.get(
-//           `http://localhost:8000/api/vehicles/get-job-card/${jobCardId}`,
-//           {
-//             headers: {
-//               Authorization: `Bearer ${token}`,
-//             },
-//           }
-//         );
-
-//         if (response.data.status) {
-//           setJobCardData(response.data.data); // Store job card data
-//         } else {
-//           console.error("Failed to fetch job card:", response.data.message);
-//         }
-//       } catch (error) {
-//         console.error("Error fetching job card:", error);
-//       }
-//     };
-
-//     if (open && jobCardId) {
-//       fetchJobCardData(); // Fetch job card data when modal is open
-//     }
-//   }, [open, jobCardId]);
-
-//   if (!jobCardData) {
-//     return (
-//       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
-//         <DialogTitle>Job Card Details</DialogTitle>
-//         <DialogContent>
-//           <Typography>Loading or no job card data found.</Typography>
-//         </DialogContent>
-//       </Dialog>
-//     );
-//   }
-
-//   return (
-//     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
-//       <DialogTitle>Job Card Details</DialogTitle>
-//       <DialogContent>
-//         <Box>
-//           <Typography>Vehicle Number: {jobCardData.vehicle_number}</Typography>
-//           <Typography>Customer Name: {jobCardData.customer_name}</Typography>
-//           {/* Display other job card fields */}
-//         </Box>
-//       </DialogContent>
-//     </Dialog>
-//   );
-// };
-// export default Quotation;
-
 import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
-  DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
-  FormHelperText,
   FormLabel,
   Grid,
   IconButton,
@@ -615,10 +541,26 @@ import TabIcon from "@mui/icons-material/Tab";
 import axios from "axios";
 import { Dialog } from "@mui/material";
 
+// Add Axios Interceptors for JWT
+axios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 const Quotation = ({ open, handleClose, jobCardId }: any) => {
-  // const [open, setOpen] = React.useState<boolean>(true);
-  const [modal, setModal] = React.useState<boolean>(false);
+  const [modal, setModal] = useState(false);
   const [jobCardData, setJobCardData] = useState(null);
+  const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [price, setPrice] = useState(1);
+  const [total, setTotal] = useState(1);
 
   useEffect(() => {
     const fetchJobCardData = async () => {
@@ -652,6 +594,59 @@ const Quotation = ({ open, handleClose, jobCardId }: any) => {
       fetchJobCardData(); // Fetch job card data when modal is open
     }
   }, [open, jobCardId]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/products/get-all-products"
+        );
+        if (response.data.status) setProducts(response.data.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    const selected = products.find((p) => p._id === selectedProduct);
+    if (selected) {
+      setPrice(selected.price);
+      setTotal(selected.price * quantity);
+    }
+  }, [selectedProduct, quantity]);
+
+  const submitQuotation = async () => {
+    if (!selectedProduct || !quantity) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/vehicles/create-job-card-quotation",
+        {
+          job_card_id: jobCardId,
+          product_id: selectedProduct,
+          quotaion_for: "Revels",
+          quantity,
+          price,
+          total_price: total,
+        }
+      );
+
+      if (response.data.status) {
+        alert("Quotation submitted successfully!");
+
+        setModal(false);
+      } else {
+        alert("Failed to submit quotation.");
+      }
+    } catch (error) {
+      console.error("Error submitting quotation:", error);
+    }
+  };
 
   if (!jobCardData) {
     return (
@@ -887,7 +882,7 @@ const Quotation = ({ open, handleClose, jobCardId }: any) => {
                     <FormLabel>Customer Request</FormLabel>
                     <Textarea
                       minRows={6}
-                      defaultValue="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+                      defaultValue="Lorem Ipsum is simply dummy"
                     />
                   </FormControl>
                 </Box>
@@ -919,7 +914,7 @@ const Quotation = ({ open, handleClose, jobCardId }: any) => {
                     <FormLabel>Remarks</FormLabel>
                     <Textarea
                       minRows={5}
-                      defaultValue="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
+                      defaultValue="Lorem Ipsum is simply dummy"
                     />
                   </FormControl>
                 </Box>
@@ -998,8 +993,8 @@ const Quotation = ({ open, handleClose, jobCardId }: any) => {
                     variant="outlined"
                     sx={{
                       maxWidth: 500,
-                      borderRadius: "md",
                       p: 3,
+                      borderRadius: "md",
                       boxShadow: "lg",
                     }}
                   >
@@ -1016,52 +1011,52 @@ const Quotation = ({ open, handleClose, jobCardId }: any) => {
                     </Typography>
                     <Stack spacing={3} mb={5}>
                       <FormControl>
-                        <FormLabel>Item</FormLabel>
-                        <Input defaultValue="Wind Shield" />
+                        <FormLabel>Product</FormLabel>
+                        <select
+                          value={selectedProduct}
+                          onChange={(e) => setSelectedProduct(e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select a product
+                          </option>
+                          {products.map((product) => (
+                            <option key={product._id} value={product._id}>
+                              {product.name} (₹{product.price})
+                            </option>
+                          ))}
+                        </select>
                       </FormControl>
-
                       <FormControl>
-                        <FormLabel>Description</FormLabel>
-                        <Input defaultValue="Maruti Omni" />
+                        <FormLabel>Quantity</FormLabel>
+                        <Input
+                          type="number"
+                          value={quantity}
+                          onChange={(e) => setQuantity(Number(e.target.value))}
+                        />
                       </FormControl>
-
-                      <Grid container columnSpacing={3}>
-                        <Grid md={4}>
-                          <FormControl>
-                            <FormLabel>Quantity</FormLabel>
-                            <Input defaultValue="2" />
-                          </FormControl>
-                        </Grid>
-                        <Grid md={4}>
-                          <FormControl>
-                            <FormLabel>Cost</FormLabel>
-                            <Input defaultValue="2200" />
-                          </FormControl>
-                        </Grid>
-                        <Grid md={4}>
-                          <FormControl>
-                            <FormLabel>Total</FormLabel>
-                            <Input defaultValue="4400" />
-                          </FormControl>
-                        </Grid>
-                      </Grid>
+                      <FormControl>
+                        <FormLabel>Price</FormLabel>
+                        <Input type="number" value={price} readOnly />
+                      </FormControl>
+                      <FormControl>
+                        <FormLabel>Total</FormLabel>
+                        <Input type="number" value={total} readOnly />
+                      </FormControl>
                     </Stack>
-                    <DialogActions>
-                      <Button
-                        variant="solid"
-                        color="success"
-                        onClick={() => setModal(false)}
-                      >
-                        Confirm
-                      </Button>
-                      <Button
-                        variant="plain"
-                        color="neutral"
-                        onClick={() => setModal(false)}
-                      >
-                        Back
-                      </Button>
-                    </DialogActions>
+                    <Button
+                      onClick={submitQuotation}
+                      variant="solid"
+                      color="success"
+                    >
+                      Submit
+                    </Button>
+                    <Button
+                      variant="plain"
+                      color="neutral"
+                      onClick={() => setModal(false)}
+                    >
+                      Back
+                    </Button>
                   </Sheet>
                 </Modal>
               </Grid>
