@@ -528,8 +528,6 @@ import {
   ModalClose,
   ModalDialog,
   ModalOverflow,
-  Option,
-  Select,
   Sheet,
   Stack,
   Table,
@@ -561,6 +559,7 @@ const Quotation = ({ open, handleClose, jobCardId }: any) => {
   const [quantity, setQuantity] = useState(1);
   const [price, setPrice] = useState(1);
   const [total, setTotal] = useState(1);
+  const [quotations, setQuotations] = useState([]);
 
   useEffect(() => {
     const fetchJobCardData = async () => {
@@ -639,12 +638,44 @@ const Quotation = ({ open, handleClose, jobCardId }: any) => {
       if (response.data.status) {
         alert("Quotation submitted successfully!");
 
+        // Optimistically update the state
+        const newQuotation = {
+          _id: response.data.data._id,
+          product: products.find((p) => p._id === selectedProduct).name,
+          quantity,
+          price,
+          total_price: total,
+        };
+
+        setQuotations((prevQuotations) => [...prevQuotations, newQuotation]);
+
         setModal(false);
+
+        // Optionally re-fetch to ensure data consistency
+        await fetchQuotations();
       } else {
         alert("Failed to submit quotation.");
       }
     } catch (error) {
       console.error("Error submitting quotation:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+
+  const fetchQuotations = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/vehicles/get-job-card-quotation/${jobCardId}`
+      );
+      console.log("Fetched Quotations API Response:", response.data);
+      if (response.data.status) {
+        console.log("Fetched Quotations:", response.data.data);
+        setQuotations(response.data.data); // Update state
+      } else {
+        console.error("Failed to fetch quotations:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching quotations:", error);
     }
   };
 
@@ -1093,28 +1124,19 @@ const Quotation = ({ open, handleClose, jobCardId }: any) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {Array.from({ length: 3 }).map((_, i) => (
-                    <tr key={i}>
+                  {quotations.map((quotation) => (
+                    <tr key={quotation._id}>
                       <td>
-                        <Typography>Wind Screen</Typography>
-                        <Typography component="small" level="body-xs">
-                          Model no. 78765
-                        </Typography>
+                        <Typography>{quotation.product}</Typography>
                       </td>
                       <td>
-                        <Select defaultValue="1 Peices">
-                          <Option value="1 Peices">1 Peices</Option>
-                          <Option value="2 Peices">2 Peices</Option>
-                          <Option value="3 Peices">3 Peices</Option>
-                          <Option value="4 Peices">4 Peices</Option>
-                          <Option value="5 Peices">5 Peices</Option>
-                        </Select>
+                        <Typography>{quotation.quantity}</Typography>
                       </td>
                       <td>
-                        <Typography component="p">INR 20,000</Typography>
+                        <Typography>INR {quotation.price}</Typography>
                       </td>
                       <td>
-                        <Typography component="p">INR 1,00,000</Typography>
+                        <Typography>INR {quotation.total_price}</Typography>
                       </td>
                       <td>
                         <IconButton>
