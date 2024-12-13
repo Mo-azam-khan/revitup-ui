@@ -638,7 +638,6 @@ const Quotation = ({ open, handleClose, jobCardId }: any) => {
       if (response.data.status) {
         alert("Quotation submitted successfully!");
 
-        // Optimistically update the state
         const newQuotation = {
           _id: response.data.data._id,
           product: products.find((p) => p._id === selectedProduct).name,
@@ -651,7 +650,6 @@ const Quotation = ({ open, handleClose, jobCardId }: any) => {
 
         setModal(false);
 
-        // Optionally re-fetch to ensure data consistency
         await fetchQuotations();
       } else {
         alert("Failed to submit quotation.");
@@ -676,6 +674,30 @@ const Quotation = ({ open, handleClose, jobCardId }: any) => {
       }
     } catch (error) {
       console.error("Error fetching quotations:", error);
+    }
+  };
+
+  const deleteQuotation = async (quotationId) => {
+    if (!window.confirm("Are you sure you want to delete this quotation?")) {
+      return;
+    }
+
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/api/vehicles/delete-job-card-quotation/${quotationId}`
+      );
+      if (response.data.status) {
+        alert("Quotation deleted successfully!");
+        // Remove the deleted quotation from the state
+        setQuotations((prevQuotations) =>
+          prevQuotations.filter((quotation) => quotation._id !== quotationId)
+        );
+      } else {
+        alert("Failed to delete the quotation.");
+      }
+    } catch (error) {
+      console.error("Error deleting quotation:", error);
+      alert("An error occurred while trying to delete the quotation.");
     }
   };
 
@@ -1139,7 +1161,9 @@ const Quotation = ({ open, handleClose, jobCardId }: any) => {
                         <Typography>INR {quotation.total_price}</Typography>
                       </td>
                       <td>
-                        <IconButton>
+                        <IconButton
+                          onClick={() => deleteQuotation(quotation._id)}
+                        >
                           <DeleteForeverIcon />
                         </IconButton>
                       </td>
