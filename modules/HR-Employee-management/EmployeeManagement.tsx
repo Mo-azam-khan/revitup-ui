@@ -690,6 +690,7 @@ const EmployeeManagement = () => {
     password: "",
     confirm_password: "",
   });
+  const [employees, setEmployees] = useState([]);
 
   const handleOpenPopup = () => setPopupOpen(true);
   const handleClosePopup = () => setPopupOpen(false);
@@ -722,6 +723,34 @@ const EmployeeManagement = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const fetchEmployees = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("http://localhost:8000/api/employees", {
+        params: {
+          page: 1,
+          limit: 10,
+          role_id: null,
+          search_key: "",
+        },
+      });
+      if (response.data.status) {
+        setEmployees(response.data.data.data);
+      } else {
+        setEmployees([]);
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
   };
@@ -743,17 +772,6 @@ const EmployeeManagement = () => {
     setSelectedEmployee(null);
   };
 
-  const employees = [
-    {
-      name: "Josh Baker",
-      position: "Chief Executive Officer",
-      department: "Engineer",
-      joiningDate: "02 March 2015",
-      availability: "Available",
-      checkIn: "09:15 AM",
-    },
-  ];
-
   const attendance = [
     {
       date: "13 June 2024",
@@ -774,6 +792,10 @@ const EmployeeManagement = () => {
       year: "numeric",
     });
   };
+
+  if (loading) {
+    return <Typography>Loading employees...</Typography>;
+  }
 
   return (
     <Box sx={{ padding: 1 }}>
@@ -862,6 +884,7 @@ const EmployeeManagement = () => {
               onSubmit={handleAddEmployee}
             />
           </Box>
+
           <TableContainer component={Paper}>
             <Table>
               <TableHead sx={{ backgroundColor: "#0d47a1" }}>
@@ -879,29 +902,37 @@ const EmployeeManagement = () => {
                   <TableRow key={index}>
                     <TableCell onClick={() => handleViewClick(employee)}>
                       <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar alt={employee.name} src="/path/to/avatar.jpg" />
+                        <Avatar
+                          alt={employee.full_name}
+                          src="/path/to/avatar.jpg"
+                        />
                         <Box>
-                          <Typography>{employee.name}</Typography>
+                          <Typography>{employee.full_name}</Typography>
                           <Typography variant="body2" color="text.secondary">
                             {employee.position}
                           </Typography>
                         </Box>
                       </Stack>
                     </TableCell>
-                    <TableCell>{employee.department}</TableCell>
-                    <TableCell>{employee.joiningDate}</TableCell>
+                    <TableCell>
+                      {employee.department_details?.department_name || "N/A"}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(employee.joining_date).toLocaleDateString()}
+                    </TableCell>
+                    {/* <TableCell>{employee.joining_date}</TableCell> */}
                     <TableCell>
                       <Typography
                         color={
-                          employee.availability === "Available"
+                          employee.availablity_status === "available"
                             ? "green"
                             : "red"
                         }
                       >
-                        {employee.availability}
+                        {employee.availablity_status || "unavailable"}
                       </Typography>
                     </TableCell>
-                    <TableCell>{employee.checkIn}</TableCell>
+                    <TableCell>{employee.checkIn || "N/A"}</TableCell>
                     <TableCell>
                       <IconButton
                         color="primary"
