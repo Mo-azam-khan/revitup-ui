@@ -622,9 +622,9 @@ const BayManagement = () => {
               <>
                 <TableRow key={vehicle._id}>
                   <TableCell>{vehicle.make_and_model}</TableCell>
-                  <TableCell>{vehicle.id}</TableCell>
+                  <TableCell>{vehicle.vehicle_number}</TableCell>
                   <TableCell>{vehicle.modelYear}</TableCell>
-                  <TableCell>{vehicle.model}</TableCell>
+                  <TableCell>{vehicle.model_no}</TableCell>
                   <TableCell>{vehicle.license}</TableCell>
                   <TableCell>{vehicle.vehicle_type}</TableCell>
                   <TableCell>{vehicle.status}</TableCell>
@@ -649,7 +649,7 @@ const BayManagement = () => {
                       unmountOnExit
                     >
                       <Box sx={{ margin: 2 }}>
-                        {vehicle.status === "Working" && (
+                        {vehicle.status === "Parking" && (
                           <>
                             <Typography variant="h6" gutterBottom>
                               Assign Workers
@@ -802,7 +802,7 @@ const BayManagement = () => {
                             </TableContainer>
                           </>
                         )}
-                        {vehicle.status === "Parking" && (
+                        {/* {vehicle.status === "Parking" && (
                           <>
                             <Typography variant="h6" gutterBottom>
                               Parking Details
@@ -846,7 +846,7 @@ const BayManagement = () => {
                               </Table>
                             </TableContainer>
                           </>
-                        )}
+                        )} */}
                       </Box>
                     </Collapse>
                   </TableCell>
