@@ -706,6 +706,7 @@ const EmployeeManagement = () => {
       );
       console.log("Success:", response.data);
       alert("Employee added successfully!");
+      fetchEmployees();
     } catch (error) {
       console.error("Error adding employee:", error.response.data);
       alert("Failed to add employee.");
@@ -761,6 +762,59 @@ const EmployeeManagement = () => {
     setViewMode(false);
   };
 
+  const handleUpdateSubmit = async (employee) => {
+    try {
+      // Exclude `_id` from the payload
+      const {
+        _id,
+        token,
+        availablity_status,
+        isTokenActive,
+        createdAt,
+        updatedAt,
+        __v,
+        department_details,
+        name_initial,
+        department_name,
+        ...updateData
+      } = employee;
+
+      const response = await axios.put(
+        `http://localhost:8000/api/employees/${_id}`,
+        updateData
+      );
+      if (response.data.status) {
+        alert("Employee updated successfully");
+        setIsDrawerOpen(false); // Close the drawer
+        fetchEmployees(); // Refresh the employee list
+      } else {
+        alert(response.data.message || "Update failed");
+      }
+    } catch (error) {
+      console.error("Error updating employee:", error);
+      alert("An error occurred while updating the employee.");
+    }
+  };
+
+  const handleDeleteClick = async (employeeId) => {
+    if (window.confirm("Are you sure you want to delete this employee?")) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:8000/api/employees/${employeeId}`
+        );
+        if (response.data.status) {
+          alert("Employee deleted successfully");
+          fetchEmployees(); // Refresh the employee list
+        } else {
+          alert(response.data.message || "Deletion failed");
+        }
+      } catch (error) {
+        console.error("Error deleting employee:", error);
+        alert("An error occurred while deleting the employee.");
+      }
+    }
+  };
+
   const handleViewClick = (employee) => {
     setSelectedEmployee(employee);
     setIsDrawerOpen(true);
@@ -793,9 +847,9 @@ const EmployeeManagement = () => {
     });
   };
 
-  if (loading) {
-    return <Typography>Loading employees...</Typography>;
-  }
+  // if (loading) {
+  //   return <Typography>Loading employees...</Typography>;
+  // }
 
   return (
     <Box sx={{ padding: 1 }}>
@@ -909,7 +963,7 @@ const EmployeeManagement = () => {
                         <Box>
                           <Typography>{employee.full_name}</Typography>
                           <Typography variant="body2" color="text.secondary">
-                            {employee.position}
+                            {employee.designation}
                           </Typography>
                         </Box>
                       </Stack>
@@ -940,7 +994,10 @@ const EmployeeManagement = () => {
                       >
                         <EditIcon />
                       </IconButton>
-                      <IconButton sx={{ color: "#d50000" }}>
+                      <IconButton
+                        sx={{ color: "#d50000" }}
+                        onClick={() => handleDeleteClick(employee._id)}
+                      >
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
@@ -1073,7 +1130,7 @@ const EmployeeManagement = () => {
             <Grid item xs>
               <Typography variant="h6">{selectedEmployee.name}</Typography>
               <Typography variant="body1">
-                {selectedEmployee.position}
+                {selectedEmployee.designation}
               </Typography>
             </Grid>
           ) : (
@@ -1265,48 +1322,98 @@ const EmployeeManagement = () => {
               fullWidth
               label="Name"
               variant="outlined"
-              defaultValue={selectedEmployee.name}
+              value={selectedEmployee.full_name}
+              onChange={(e) =>
+                setSelectedEmployee({
+                  ...selectedEmployee,
+                  full_name: e.target.value,
+                })
+              }
               sx={{ mb: 2 }}
             />
             <TextField
               fullWidth
-              label="Position"
+              label="Designation"
               variant="outlined"
-              defaultValue={selectedEmployee.position}
+              value={selectedEmployee.designation}
+              onChange={(e) =>
+                setSelectedEmployee({
+                  ...selectedEmployee,
+                  designation: e.target.value,
+                })
+              }
               sx={{ mb: 2 }}
             />
             <TextField
               fullWidth
               label="Department"
               variant="outlined"
-              defaultValue={selectedEmployee.department}
+              value={selectedEmployee.department_details?.department_name}
+              onChange={(e) =>
+                setSelectedEmployee({
+                  ...selectedEmployee,
+                  department_name: e.target.value,
+                })
+              }
               sx={{ mb: 2 }}
             />
+
             <TextField
               fullWidth
               label="Joining Date"
               variant="outlined"
-              defaultValue={selectedEmployee.joiningDate}
+              type="date" // Ensure the input uses a date picker
+              value={
+                selectedEmployee.joining_date
+                  ? new Date(selectedEmployee.joining_date)
+                      .toISOString()
+                      .split("T")[0]
+                  : ""
+              }
+              onChange={(e) =>
+                setSelectedEmployee({
+                  ...selectedEmployee,
+                  joining_date: e.target.value,
+                })
+              }
               sx={{ mb: 2 }}
             />
+
             <FormControl fullWidth variant="outlined" sx={{ mb: 2 }}>
               <InputLabel>Availability</InputLabel>
               <Select
-                defaultValue={selectedEmployee.availability}
+                value={selectedEmployee.availablity_status || ""}
+                onChange={(e) =>
+                  setSelectedEmployee({
+                    ...selectedEmployee,
+                    availablity_status: e.target.value,
+                  })
+                }
                 label="Availability"
               >
-                <MenuItem value="Available">Available</MenuItem>
-                <MenuItem value="Unavailable">Unavailable</MenuItem>
+                <MenuItem value="available">Available</MenuItem>
+                <MenuItem value="unavailable">Unavailable</MenuItem>
               </Select>
             </FormControl>
             <TextField
               fullWidth
               label="Check In"
               variant="outlined"
-              defaultValue={selectedEmployee.checkIn}
+              value={selectedEmployee.checkIn}
+              onChange={(e) =>
+                setSelectedEmployee({
+                  ...selectedEmployee,
+                  checkIn: e.target.value,
+                })
+              }
               sx={{ mb: 2 }}
             />
-            <Button variant="contained" color="primary" fullWidth>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={() => handleUpdateSubmit(selectedEmployee)}
+            >
               Save
             </Button>
           </Box>
