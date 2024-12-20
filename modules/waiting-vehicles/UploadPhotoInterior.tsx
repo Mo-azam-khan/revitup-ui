@@ -109,7 +109,7 @@ const UploadPhotoInterior = ({
         // Save jobCardId to localStorage or state
         const jobCardId = response.data?.data?._id;
         if (jobCardId) {
-          localStorage.setItem("jobCardId", jobCardId); // Optionally store in localStorage or pass to the modal
+          localStorage.setItem("jobCardId", jobCardId); 
         }
 
         localStorage.removeItem("firstModalData");
@@ -117,7 +117,7 @@ const UploadPhotoInterior = ({
         localStorage.removeItem("interiorPhotos");
 
         handleClose();
-        if (onProceed) onProceed(jobCardId); // Pass the jobCardId if necessary
+        if (onProceed) onProceed(jobCardId); 
       } else {
         alert(
           "Submission failed: " + (response.data?.message || "Unknown error")

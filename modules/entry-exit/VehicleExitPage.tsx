@@ -1,96 +1,3 @@
-// import React from "react";
-// import {
-//   TextField,
-//   Button,
-//   Typography,
-//   Box,
-//   styled,
-//   Grid,
-//   useMediaQuery,
-//   useTheme,
-//   Checkbox,
-//   FormControlLabel,
-//   Divider,
-//   IconButton,
-//   InputAdornment,
-// } from "@mui/material";
-
-// const StyledGrid = styled(Grid)(() => ({
-//   backgroundColor: "#002e6e",
-// }));
-
-// export default function VehicleExitPage() {
-//   const theme = useTheme();
-//   const isMobile = useMediaQuery(theme.breakpoints.down(800));
-
-//   return (
-//     <>
-//       <Typography variant="h4" color="#002e6e" pb={3} pt={7}>
-//         Vehicle Exit
-//       </Typography>
-
-//       <Grid
-//         alignItems="center"
-//         display="flex"
-//         columnGap={"1.6rem"}
-//         rowGap={"1.2rem"}
-//       >
-//         <TextField
-//           id="vehicle-number"
-//           label="Enter Vehicle Number"
-//           variant="outlined"
-//           size={isMobile ? "small" : "medium"}
-//           sx={{ mb: 2, width: isMobile ? "17rem" : "22rem" }}
-//         />
-
-//         <Button variant="contained">Ask for Approval</Button>
-//       </Grid>
-
-//       <Box my={2}>
-//         <Grid container spacing={2} alignItems="center" color={"blue"}>
-//           <Grid item xs={2} sm={2}>
-//             <Typography>Vehicle Number</Typography>
-//           </Grid>
-//           <Grid item xs={3} sm={3}>
-//             <Typography>Driver</Typography>
-//           </Grid>
-//           <Grid item xs={3} sm={3}>
-//             <Typography>Technician</Typography>
-//           </Grid>
-//           <Grid item xs={2} sm={2}>
-//             <Typography>Status</Typography>
-//           </Grid>
-//           <Grid item xs={2} sm={2}>
-//             <Typography>Approval</Typography>
-//           </Grid>
-//         </Grid>
-//         <Divider />
-
-//         <Grid container spacing={2} alignItems="center">
-//           <Grid item xs={2} sm={2}>
-//             <Typography>ABC123</Typography>
-//           </Grid>
-//           <Grid item xs={3} sm={3}>
-//             <Typography>John Doe</Typography>
-//           </Grid>
-//           <Grid item xs={3} sm={3}>
-//             <Typography>Jane Smith</Typography>
-//           </Grid>
-//           <Grid item xs={2} sm={2}>
-//             <Typography>Approved</Typography>
-//           </Grid>
-//           <Grid item xs={2} sm={2}>
-//             <FormControlLabel
-//               control={<Checkbox color="primary" />}
-//               label="Approve"
-//             />
-//           </Grid>
-//         </Grid>
-//       </Box>
-//     </>
-//   );
-// }
-
 import React, { useState, useEffect } from "react";
 import {
   TextField,
@@ -110,14 +17,14 @@ const StyledGrid = styled(Grid)(() => ({
   backgroundColor: "#002e6e",
 }));
 
-const API_BASE_URL = "http://localhost:8000/api/vehicles"; // Replace with your API base URL
+const API_BASE_URL = "http://localhost:8000/api/vehicles";
 
 export default function VehicleExitPage() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down(800));
 
-  const [vehicleLogId, setVehicleLogId] = useState(""); // Input for exit request
-  const [enteredVehicles, setEnteredVehicles] = useState([]); // For displaying the list of entered vehicles
+  const [vehicleLogId, setVehicleLogId] = useState("");
+  const [enteredVehicles, setEnteredVehicles] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const token =
@@ -160,7 +67,6 @@ export default function VehicleExitPage() {
     }
   };
 
-  // Submit an exit request
   const submitExitRequest = async () => {
     if (!vehicleLogId) {
       toast.error("Please provide a valid vehicle log ID.");
@@ -182,15 +88,15 @@ export default function VehicleExitPage() {
         { vehicle_log_id: vehicleLogId },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include token
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
       if (response.data.status) {
         toast.success("Vehicle exit request submitted successfully.");
-        setVehicleLogId(""); // Clear input after successful request
-        fetchEnteredVehicles(); // Refresh the list
+        setVehicleLogId("");
+        fetchEnteredVehicles();
       } else {
         toast.error(response.data.message || "Failed to submit exit request.");
       }
@@ -203,7 +109,7 @@ export default function VehicleExitPage() {
   };
 
   useEffect(() => {
-    fetchEnteredVehicles(); // Load entered vehicles on page load
+    fetchEnteredVehicles();
   }, []);
 
   return (
@@ -266,7 +172,7 @@ export default function VehicleExitPage() {
                 {vehicle._id} 
               </Grid> */}
               <Grid item xs={6}>
-                {vehicle.vehicle_number} {/* Display vehicle number */}
+                {vehicle.vehicle_number}
               </Grid>
               <Grid item xs={3}>
                 {vehicle.status || "Pending"}
@@ -275,8 +181,8 @@ export default function VehicleExitPage() {
                 <Button
                   variant="contained"
                   onClick={() => {
-                    setVehicleLogId(vehicle._id); // Use the `_id` from the vehicle log
-                    submitExitRequest(); // Call the exit request function
+                    setVehicleLogId(vehicle._id);
+                    submitExitRequest();
                   }}
                 >
                   Exit

@@ -65,7 +65,7 @@ const Signup = () => {
         userData
       );
       console.log("signup success", response.data);
-      router.push("/login"); // Navigate to login page after successful signup
+      router.push("/login");
     } catch (error) {
       console.log("signup failed", error.message);
       toast.error(error.message);
@@ -274,8 +274,8 @@ const Signup = () => {
               Already have an account?{" "}
               <Button
                 color="primary"
-                onClick={() => router.push("/login")} // Navigate to login on click
-                type="button" // Make sure this button is not treated as a submit button
+                onClick={() => router.push("/login")}
+                type="button"
               >
                 Sign in
               </Button>
