@@ -82,6 +82,13 @@ const EmployeeManagement = () => {
     absent_employees: 0,
     leave_employees: 0,
   });
+  const [attendance, setAttendance] = useState([]);
+  const [error, setError] = useState("");
+  const [departments, setDepartments] = useState([]);
+  const [searchKey, setSearchKey] = useState("");
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0] // Default to today's date
+  );
 
   const handleOpenPopup = () => setPopupOpen(true);
   const handleClosePopup = () => setPopupOpen(false);
@@ -238,30 +245,97 @@ const EmployeeManagement = () => {
     setSelectedEmployee(null);
   };
 
-  const attendance = [
-    {
-      date: "13 June 2024",
-      employee: "Josh Baker",
-      role: "Chief Executive Officer",
-      employeeType: "Full Time",
-      status: "Present",
-      checkIn: "09:15 AM",
-      checkOut: "07:00 PM",
-      overTime: "on",
-    },
-  ];
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/api/departments"
+        );
+        if (response.data.status) {
+          setDepartments(response.data.data);
+        } else {
+          console.error("No departments found");
+        }
+      } catch (error) {
+        console.error("Error fetching departments:", error);
+      }
+    };
+    fetchDepartments();
+  }, []);
 
-  const formatDate = (date: any) => {
-    return date.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
+  const handleDepartmentChange = (event) => {
+    const selectedDepartment = departments.find(
+      (dept) => dept.department_name === event.target.value
+    );
+
+    setUser({
+      ...user,
+      department_name: selectedDepartment.department_name,
+      department_id: selectedDepartment._id,
     });
   };
 
-  // if (loading) {
-  //   return <Typography>Loading employees...</Typography>;
-  // }
+  useEffect(() => {
+    const fetchAttendanceData = async () => {
+      try {
+        setLoading(true);
+        const todayDate = new Date();
+        const formattedDate = todayDate.toISOString().split("T")[0]; // "YYYY-MM-DD"
+        const response = await axios.get(
+          "http://localhost:8000/api/employees/attendance-list",
+          {
+            params: {
+              page: 1,
+              limit: 10,
+              search_key: searchKey,
+              date: formattedDate,
+            },
+          }
+        );
+
+        if (response.data.status) {
+          const data = response.data.data.data.map((entry) => ({
+            date: entry.date,
+            employee: entry.employee_details.full_name,
+            role: entry.employee_details.designation || "N/A",
+            employeeType: entry.employee_details.employment_type || "Full-Time",
+            status: entry.status,
+            checkIn: entry.check_in_time,
+            checkOut: entry.check_out_time,
+            overTime: calculateOverTime(
+              entry.check_in_time,
+              entry.check_out_time
+            ),
+          }));
+          setAttendance(data);
+        } else {
+          setAttendance([]);
+        }
+      } catch (err) {
+        setError("Failed to fetch attendance data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAttendanceData();
+  }, []);
+
+  const calculateOverTime = (checkIn, checkOut) => {
+    if (!checkIn || !checkOut) return "N/A";
+    const diff = new Date(checkOut) - new Date(checkIn);
+    return `${Math.floor(diff / (1000 * 60 * 60))} hrs ${Math.floor(
+      (diff % (1000 * 60 * 60)) / (1000 * 60)
+    )} mins`;
+  };
+
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString("en-GB", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
 
   return (
     <Box sx={{ padding: 1 }}>
@@ -449,17 +523,26 @@ const EmployeeManagement = () => {
               label="Search by real name or department"
               variant="outlined"
               size="small"
+              value={searchKey}
+              onChange={(e) => setSearchKey(e.target.value)}
               sx={{ marginRight: 2, flexGrow: 1, minWidth: 220 }}
             />
             <FormControl sx={{ minWidth: 120, marginRight: 2, flexGrow: 1 }}>
               <InputLabel>Department</InputLabel>
-              <Select label="Department">
-                <MenuItem value="">
-                  <em>All Department</em>
-                </MenuItem>
-                <MenuItem value={10}>Engineering</MenuItem>
-                <MenuItem value={20}>HR</MenuItem>
-                <MenuItem value={30}>Sales</MenuItem>
+              <Select
+                value={user.department_name}
+                onChange={handleDepartmentChange}
+                label="Department"
+                required
+              >
+                {departments.map((department) => (
+                  <MenuItem
+                    key={department._id}
+                    value={department.department_name}
+                  >
+                    {department.department_name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
             <TextField
@@ -467,13 +550,19 @@ const EmployeeManagement = () => {
               variant="outlined"
               size="small"
               type="date"
-              defaultValue="2023-05-13"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
               sx={{ marginRight: 2, flexGrow: 1, minWidth: 180 }}
               InputLabelProps={{
                 shrink: true,
               }}
             />
-            <Button variant="contained" color="primary" sx={{ flexGrow: 0 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ flexGrow: 0 }}
+              onClick={() => console.log("Search triggered")}
+            >
               Search
             </Button>
           </Box>
@@ -492,34 +581,42 @@ const EmployeeManagement = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {attendance.map((entry, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{formatDate(currentDate)}</TableCell>
-                    <TableCell>
-                      <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar
-                          alt={entry.employee}
-                          src="/path/to/avatar.jpg"
-                        />
-                        <Box>
-                          <Typography>{entry.employee}</Typography>
-                        </Box>
-                      </Stack>
+                {attendance.length > 0 ? (
+                  attendance.map((entry, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{formatDate(entry.date)}</TableCell>
+                      <TableCell>
+                        <Stack direction="row" alignItems="center" spacing={2}>
+                          <Avatar
+                            alt={entry.employee}
+                            src="/path/to/avatar.jpg"
+                          />
+                          <Box>
+                            <Typography>{entry.employee}</Typography>
+                          </Box>
+                        </Stack>
+                      </TableCell>
+                      <TableCell>{entry.role}</TableCell>
+                      <TableCell>{entry.employeeType}</TableCell>
+                      <TableCell>
+                        <Typography
+                          color={entry.status === "Present" ? "green" : "red"}
+                        >
+                          {entry.status}
+                        </Typography>
+                      </TableCell>
+                      <TableCell>{entry.checkIn}</TableCell>
+                      <TableCell>{entry.checkOut || "N/A"}</TableCell>
+                      <TableCell>{entry.overTime}</TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={8} align="center">
+                      No data available.
                     </TableCell>
-                    <TableCell>{entry.role}</TableCell>
-                    <TableCell>{entry.employeeType}</TableCell>
-                    <TableCell>
-                      <Typography
-                        color={entry.status === "Present" ? "green" : "red"}
-                      >
-                        {entry.status}
-                      </Typography>
-                    </TableCell>
-                    <TableCell>{entry.checkIn}</TableCell>
-                    <TableCell>{entry.checkOut}</TableCell>
-                    <TableCell>{entry.overTime}</TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </TableContainer>
@@ -540,7 +637,7 @@ const EmployeeManagement = () => {
         <Grid container alignItems="center" justifyContent="space-between">
           {selectedEmployee && viewMode ? (
             <Grid item xs>
-              <Typography variant="h6">{selectedEmployee.name}</Typography>
+              <Typography variant="h6">{selectedEmployee.full_name}</Typography>
               <Typography variant="body1">
                 {selectedEmployee.designation}
               </Typography>
@@ -654,7 +751,7 @@ const EmployeeManagement = () => {
                     </ListItemAvatar>
                     <ListItemText
                       primary="Date Join"
-                      secondary={selectedEmployee.joiningDate}
+                      secondary={selectedEmployee.joining_date}
                     />
                   </ListItem>
                 </Grid>
@@ -687,7 +784,7 @@ const EmployeeManagement = () => {
                     </ListItemAvatar>
                     <ListItemText
                       primary="Phone Number"
-                      secondary="9087654321"
+                      secondary={selectedEmployee.mobile_number}
                     />
                   </ListItem>
                 </Grid>
