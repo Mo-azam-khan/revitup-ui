@@ -693,9 +693,6 @@ const BayManagement = () => {
                                       S.No.
                                     </TableCell>
                                     <TableCell sx={{ color: "white" }}>
-                                      ID
-                                    </TableCell>
-                                    <TableCell sx={{ color: "white" }}>
                                       Date
                                     </TableCell>
                                     <TableCell sx={{ color: "white" }}>
@@ -703,9 +700,6 @@ const BayManagement = () => {
                                     </TableCell>
                                     <TableCell sx={{ color: "white" }}>
                                       Category
-                                    </TableCell>
-                                    <TableCell sx={{ color: "white" }}>
-                                      Model No
                                     </TableCell>
                                     <TableCell sx={{ color: "white" }}>
                                       Quantity
@@ -724,7 +718,6 @@ const BayManagement = () => {
                                     (part, partIndex) => (
                                       <TableRow key={partIndex}>
                                         <TableCell>{partIndex + 1}</TableCell>
-                                        <TableCell>{part._id}</TableCell>
                                         <TableCell>
                                           {new Date(
                                             part.createdAt
@@ -735,10 +728,6 @@ const BayManagement = () => {
                                         </TableCell>
                                         <TableCell>
                                           {part.product_details?.category_id ||
-                                            "N/A"}
-                                        </TableCell>
-                                        <TableCell>
-                                          {part.product_details?.model_no ||
                                             "N/A"}
                                         </TableCell>
                                         <TableCell>
