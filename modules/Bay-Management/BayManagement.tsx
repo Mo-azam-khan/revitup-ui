@@ -454,37 +454,40 @@ axios.interceptors.request.use(
 const BayManagement = () => {
   const [expandedRow, setExpandedRow] = useState(null);
 
-  const [vehicles, setVehicles] = useState([]); // Initialize as an empty array
+  const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchKey, setSearchKey] = useState("");
 
-  // Fetch data from API
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           "http://localhost:8000/api/vehicles/bay",
           {
             params: { search_key: searchKey, page: 1, limit: 10 },
           }
         );
-        const vehicleData = response.data.data?.data; // Extract the nested array
+
+        const vehicleData = response.data.data?.data;
+        console.log("API Response:", vehicleData);
+
         if (Array.isArray(vehicleData)) {
-          setVehicles(vehicleData); // Ensure vehicles is an array
+          setVehicles(vehicleData);
         } else {
           console.error("Unexpected data format:", vehicleData);
-          setVehicles([]); // Fallback to an empty array
+          setVehicles([]);
         }
       } catch (error) {
         console.error("Error fetching vehicles:", error);
-        setVehicles([]); // Fallback to an empty array
+        setVehicles([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchVehicles();
-  }, [searchKey]); // Re-fetch when searchKey changes
+  }, [searchKey]);
 
   // Handle search button click
   const handleSearch = () => {
@@ -492,7 +495,7 @@ const BayManagement = () => {
   };
 
   if (loading) {
-    return <Typography>Loading...</Typography>; // Loader while fetching data
+    return <Typography>Loading...</Typography>;
   }
 
   const workers = [
@@ -505,20 +508,6 @@ const BayManagement = () => {
       name: "Holly Golightly",
       rating: 3.5,
       availability: "Available in 2nd half for 2 days",
-    },
-  ];
-
-  const parts = [
-    {
-      sn: 1,
-      id: "ST012345",
-      date: "22-02-2024",
-      name: "Air Filter",
-      category: "Car Part",
-      modelNo: "BNP-1236",
-      quantity: 2,
-      stock: 1000,
-      price: 50000,
     },
   ];
 
@@ -710,7 +699,7 @@ const BayManagement = () => {
                                       Date
                                     </TableCell>
                                     <TableCell sx={{ color: "white" }}>
-                                      Product Name Items
+                                      Product Name
                                     </TableCell>
                                     <TableCell sx={{ color: "white" }}>
                                       Category
@@ -729,20 +718,41 @@ const BayManagement = () => {
                                     </TableCell>
                                   </TableRow>
                                 </TableHead>
+
                                 <TableBody>
-                                  {parts.map((part, partIndex) => (
-                                    <TableRow key={partIndex}>
-                                      <TableCell>{part.sn}</TableCell>
-                                      <TableCell>{part.id}</TableCell>
-                                      <TableCell>{part.date}</TableCell>
-                                      <TableCell>{part.name}</TableCell>
-                                      <TableCell>{part.category}</TableCell>
-                                      <TableCell>{part.modelNo}</TableCell>
-                                      <TableCell>{part.quantity}</TableCell>
-                                      <TableCell>{part.stock}</TableCell>
-                                      <TableCell>{part.price}</TableCell>
-                                    </TableRow>
-                                  ))}
+                                  {vehicle.request_parts.map(
+                                    (part, partIndex) => (
+                                      <TableRow key={partIndex}>
+                                        <TableCell>{partIndex + 1}</TableCell>
+                                        <TableCell>{part._id}</TableCell>
+                                        <TableCell>
+                                          {new Date(
+                                            part.createdAt
+                                          ).toLocaleDateString()}
+                                        </TableCell>
+                                        <TableCell>
+                                          {part.product_details?.name || "N/A"}
+                                        </TableCell>
+                                        <TableCell>
+                                          {part.product_details?.category_id ||
+                                            "N/A"}
+                                        </TableCell>
+                                        <TableCell>
+                                          {part.product_details?.model_no ||
+                                            "N/A"}
+                                        </TableCell>
+                                        <TableCell>
+                                          {part.quantity || 0}
+                                        </TableCell>
+                                        <TableCell>
+                                          {part.product_details?.stock || 0}
+                                        </TableCell>
+                                        <TableCell>
+                                          {part.product_details?.price || 0}
+                                        </TableCell>
+                                      </TableRow>
+                                    )
+                                  )}
                                 </TableBody>
                               </Table>
                             </TableContainer>
