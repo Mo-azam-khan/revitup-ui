@@ -457,6 +457,7 @@ const BayManagement = () => {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchKey, setSearchKey] = useState("");
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     const fetchVehicles = async () => {
@@ -494,22 +495,37 @@ const BayManagement = () => {
     setLoading(true);
   };
 
+  const fetchEmployees = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("http://localhost:8000/api/employees", {
+        params: {
+          page: 1,
+          limit: 10,
+          role_id: 4,
+          search_key: "",
+        },
+      });
+      if (response.data.status) {
+        setEmployees(response.data.data.data);
+      } else {
+        setEmployees([]);
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+
   if (loading) {
     return <Typography>Loading...</Typography>;
   }
-
-  const workers = [
-    {
-      name: "Holly Golightly",
-      rating: 3.5,
-      availability: "Available in 2nd half for 2 days",
-    },
-    {
-      name: "Holly Golightly",
-      rating: 3.5,
-      availability: "Available in 2nd half for 2 days",
-    },
-  ];
 
   const maintenanceLog = [
     {
@@ -644,7 +660,7 @@ const BayManagement = () => {
                               Assign Workers
                             </Typography>
                             <Grid container spacing={2} sx={{ mb: 3 }}>
-                              {workers.map((worker, workerIndex) => (
+                              {employees.map((worker, workerIndex) => (
                                 <Grid item xs={12} md={4} key={workerIndex}>
                                   <Paper sx={{ p: 2 }}>
                                     <Box
@@ -654,10 +670,14 @@ const BayManagement = () => {
                                         mb: 2,
                                       }}
                                     >
-                                      <Avatar sx={{ mr: 2 }}>HG</Avatar>
+                                      <Avatar
+                                        alt={worker.full_name}
+                                        src="/path/to/avatar.jpg"
+                                        sx={{ mr: 2 }}
+                                      />
                                       <Box>
                                         <Typography variant="body1">
-                                          {worker.name}
+                                          {worker.full_name}
                                         </Typography>
                                         <Typography
                                           variant="body2"
@@ -672,7 +692,7 @@ const BayManagement = () => {
                                       color="textSecondary"
                                       sx={{ mb: 2 }}
                                     >
-                                      {worker.availability}
+                                      {worker.availablity_status}
                                     </Typography>
                                     <Button variant="contained" size="small">
                                       Add Worker
