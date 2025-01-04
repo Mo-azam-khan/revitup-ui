@@ -453,7 +453,6 @@ axios.interceptors.request.use(
 
 const BayManagement = () => {
   const [expandedRow, setExpandedRow] = useState(null);
-
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchKey, setSearchKey] = useState("");
@@ -552,8 +551,33 @@ const BayManagement = () => {
     },
   ];
 
-  const handleRowClick = (index: any) => {
-    setExpandedRow(expandedRow === index ? null : index);
+  // const handleRowClick = (index: any) => {
+  //   setExpandedRow(expandedRow === index ? null : index);
+  // };
+
+  const handleRowClick = (vehicleId) => {
+    setExpandedRow(expandedRow === vehicleId ? null : vehicleId);
+  };
+
+  const handleAssignWorker = async (workerId, vehicleId) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/vehicles/assign-worker",
+        {
+          worker_id: workerId,
+          job_card_id: vehicleId,
+        }
+      );
+
+      if (response.data.status) {
+        alert("Worker assigned successfully!");
+      } else {
+        alert(response.data.message || "Failed to assign worker.");
+      }
+    } catch (error) {
+      console.error("Error assigning worker:", error);
+      alert("An error occurred while assigning the worker.");
+    }
   };
 
   return (
@@ -694,7 +718,16 @@ const BayManagement = () => {
                                     >
                                       {worker.availablity_status}
                                     </Typography>
-                                    <Button variant="contained" size="small">
+                                    <Button
+                                      variant="contained"
+                                      size="small"
+                                      onClick={() =>
+                                        handleAssignWorker(
+                                          worker._id,
+                                          vehicle._id
+                                        )
+                                      }
+                                    >
                                       Add Worker
                                     </Button>
                                   </Paper>
