@@ -96,6 +96,8 @@ export default function LoginPage() {
         router.push("/inventoryManagement");
       } else if (role_id === 9) {
         router.push("/employeeManagement");
+      } else if (role_id === 3) {
+        router.push("/workerManagement");
       } else {
         router.push("/dashboard");
       }
